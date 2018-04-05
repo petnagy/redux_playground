@@ -62,7 +62,7 @@ class MainActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
         state.apply {
             Timber.d("GitHubUser: ${state.githubUser?.selectedUserName}")
             state.githubUser?.history?.let {
-                historyAdapter.searchedItems = state.githubUser.history.filter { it -> it.startsWith(state.githubUser.typedName) }
+                historyAdapter.searchedItems = state.githubUser.history.filter { typedUserName -> typedUserName.startsWith(state.githubUser.typedName) }
                 historyAdapter.notifyDataSetChanged()
             }
         }
