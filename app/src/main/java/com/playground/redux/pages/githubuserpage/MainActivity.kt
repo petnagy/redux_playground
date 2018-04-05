@@ -2,8 +2,11 @@ package com.playground.redux.pages.githubuserpage
 
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
+import android.text.Editable
+import android.text.TextWatcher
 import com.playground.redux.R
 import com.playground.redux.actions.SelectGitHubUserAction
+import com.playground.redux.actions.UserTypedAction
 import com.playground.redux.appstate.AppState
 import com.playground.redux.common.SpaceItemDecorator
 import dagger.android.support.DaggerAppCompatActivity
@@ -23,6 +26,20 @@ class MainActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        editGithubUser.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(text: Editable?) {
+                text?.let {
+                    store.dispatch(UserTypedAction(it.toString()))
+                }
+            }
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+        })
         btnOk.setOnClickListener {
             store.dispatch(SelectGitHubUserAction(editGithubUser.text.toString()))
         }
@@ -44,8 +61,8 @@ class MainActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
     override fun newState(state: AppState) {
         state.apply {
             Timber.d("GitHubUser: ${state.githubUser?.selectedUserName}")
-            if (state.githubUser?.history != null) {
-                historyAdapter.searchedItems = state.githubUser.history
+            state.githubUser?.history?.let {
+                historyAdapter.searchedItems = state.githubUser.history.filter { it -> it.startsWith(state.githubUser.typedName) }
                 historyAdapter.notifyDataSetChanged()
             }
         }

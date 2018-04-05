@@ -5,3 +5,5 @@ import tw.geothings.rekotlin.Action
 class SelectGitHubUserAction(val gitHubUser: String) : Action
 
 class AddHistoryAction(val gitHubUser: String): Action
+
+class UserTypedAction(val typedText: String): Action
