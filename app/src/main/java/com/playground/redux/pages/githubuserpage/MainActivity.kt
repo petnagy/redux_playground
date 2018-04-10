@@ -1,69 +1,50 @@
 package com.playground.redux.pages.githubuserpage
 
+import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v7.widget.GridLayoutManager
-import android.text.Editable
-import android.text.TextWatcher
+import com.playground.redux.BR
 import com.playground.redux.R
-import com.playground.redux.actions.SelectGitHubUserAction
-import com.playground.redux.actions.UserTypedAction
 import com.playground.redux.appstate.AppState
-import com.playground.redux.common.SpaceItemDecorator
+import com.playground.redux.databinding.ActivityMainBinding
+import com.playground.redux.pages.githubuserpage.viewmodel.GitHubUserViewModel
+import com.playground.redux.pages.githubuserpage.viewmodel.HistoryItemViewModel
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 import tw.geothings.rekotlin.Store
 import tw.geothings.rekotlin.StoreSubscriber
 import javax.inject.Inject
+
 
 class MainActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
 
     @Inject
     lateinit var store: Store<AppState>
 
-    private var historyAdapter: GitHubUserHistoryAdapter = GitHubUserHistoryAdapter()
+    @Inject
+    lateinit var viewModel: GitHubUserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        editGithubUser.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(text: Editable?) {
-                text?.let {
-                    store.dispatch(UserTypedAction(it.toString()))
-                }
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-        })
-        btnOk.setOnClickListener {
-            store.dispatch(SelectGitHubUserAction(editGithubUser.text.toString()))
-        }
-        githubHistoryList.layoutManager = GridLayoutManager(this, 1)
-        githubHistoryList.addItemDecoration(SpaceItemDecorator(8))
-        githubHistoryList.adapter = historyAdapter
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.setVariable(BR.viewModel, viewModel)
+        binding.executePendingBindings()
     }
 
     override fun onStart() {
         super.onStart()
+        viewModel.onStart()
         store.subscribe(this)
     }
 
     override fun onStop() {
         super.onStop()
+        viewModel.onStop()
         store.unsubscribe(this)
     }
 
     override fun newState(state: AppState) {
         state.apply {
-            Timber.d("GitHubUser: ${state.githubUser.selectedUserName}")
-            state.githubUser.history.let {
-                historyAdapter.searchedItems = state.githubUser.history.filter { typedUserName -> typedUserName.startsWith(state.githubUser.typedName) }.toMutableList()
-            }
+            //TODO do Activity level things
         }
     }
 }

@@ -6,4 +6,4 @@ class SelectGitHubUserAction(val gitHubUser: String) : Action
 
 class AddHistoryAction(val gitHubUser: String): Action
 
-class UserTypedAction(val typedText: String): Action
+class UserTypeAction(val typedText: String): Action

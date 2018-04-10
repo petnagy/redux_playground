@@ -1,4 +1,4 @@
-package com.playground.redux.common
+package com.playground.redux.common.recyclerview
 
 import android.graphics.Rect
 import android.support.v7.widget.RecyclerView
