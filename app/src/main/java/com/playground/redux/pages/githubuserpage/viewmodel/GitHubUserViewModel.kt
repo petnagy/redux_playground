@@ -22,7 +22,9 @@ class GitHubUserViewModel(var store: Store<AppState>): BaseObservable(), StoreSu
 
     fun onOkButtonClicked(view: View) {
         Timber.d("Ok Button pressed")
-        store.dispatch(SelectGitHubUserAction(gitHubUser))
+        if (gitHubUser.isNotBlank()) {
+            store.dispatch(SelectGitHubUserAction(gitHubUser))
+        }
     }
 
     @Bindable
