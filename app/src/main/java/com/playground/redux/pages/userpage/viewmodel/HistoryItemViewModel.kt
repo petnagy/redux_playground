@@ -1,4 +1,4 @@
-package com.playground.redux.pages.githubuserpage.viewmodel
+package com.playground.redux.pages.userpage.viewmodel
 
 import android.databinding.Bindable
 import com.playground.redux.common.recyclerview.ListItemViewModel

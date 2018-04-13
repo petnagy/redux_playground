@@ -1,4 +1,4 @@
-package com.playground.redux.pages.githubuserpage
+package com.playground.redux.pages.userpage
 
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -6,10 +6,8 @@ import com.playground.redux.BR
 import com.playground.redux.R
 import com.playground.redux.appstate.AppState
 import com.playground.redux.databinding.ActivityMainBinding
-import com.playground.redux.pages.githubuserpage.viewmodel.GitHubUserViewModel
-import com.playground.redux.pages.githubuserpage.viewmodel.HistoryItemViewModel
+import com.playground.redux.pages.userpage.viewmodel.UserViewModel
 import dagger.android.support.DaggerAppCompatActivity
-import timber.log.Timber
 import tw.geothings.rekotlin.Store
 import tw.geothings.rekotlin.StoreSubscriber
 import javax.inject.Inject
@@ -21,7 +19,7 @@ class MainActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
     lateinit var store: Store<AppState>
 
     @Inject
-    lateinit var viewModel: GitHubUserViewModel
+    lateinit var viewModel: UserViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

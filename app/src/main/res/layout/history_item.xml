@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="com.playground.redux.pages.githubuserpage.viewmodel.HistoryItemViewModel" />
+            type="com.playground.redux.pages.userpage.viewmodel.HistoryItemViewModel" />
     </data>
 
     <android.support.v7.widget.CardView

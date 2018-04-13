@@ -10,7 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".pages.githubuserpage.MainActivity">
+        <activity android:name=".pages.userpage.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,7 +18,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".pages.GitHubReposActivity" />
+        <activity android:name=".pages.ReposActivity" />
     </application>
 
 </manifest>

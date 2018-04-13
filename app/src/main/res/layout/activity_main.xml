@@ -8,23 +8,23 @@
 
         <variable
             name="viewModel"
-            type="com.playground.redux.pages.githubuserpage.viewmodel.GitHubUserViewModel" />
+            type="com.playground.redux.pages.userpage.viewmodel.UserViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".pages.githubuserpage.MainActivity">
+        tools:context=".pages.userpage.MainActivity">
 
         <EditText
-            android:id="@+id/editGithubUser"
+            android:id="@+id/editUser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="@={viewModel.gitHubUser}"
-            bind:addTextWatcher="@{viewModel.githubUserWatcher}"
+            android:text="@={viewModel.user}"
+            bind:addTextWatcher="@{viewModel.userWatcher}"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -52,10 +52,10 @@
             android:text="Search history:"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/editGithubUser" />
+            app:layout_constraintTop_toBottomOf="@+id/editUser" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/githubHistoryList"
+            android:id="@+id/historyList"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"

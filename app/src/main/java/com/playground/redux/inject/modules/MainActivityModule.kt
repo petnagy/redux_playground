@@ -1,7 +1,7 @@
 package com.playground.redux.inject.modules
 
 import com.playground.redux.appstate.AppState
-import com.playground.redux.pages.githubuserpage.viewmodel.GitHubUserViewModel
+import com.playground.redux.pages.userpage.viewmodel.UserViewModel
 import dagger.Module
 import dagger.Provides
 import tw.geothings.rekotlin.Store
@@ -10,6 +10,6 @@ import tw.geothings.rekotlin.Store
 class MainActivityModule {
 
     @Provides
-    fun provideMainActivityViewModel(store: Store<AppState>) : GitHubUserViewModel = GitHubUserViewModel(store)
+    fun provideMainActivityViewModel(store: Store<AppState>) : UserViewModel = UserViewModel(store)
 
 }

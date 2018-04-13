@@ -1,8 +1,8 @@
 package com.playground.redux.inject.modules
 
 import com.playground.redux.appstate.AppState
-import com.playground.redux.appstate.GithubUserState
-import com.playground.redux.middlewares.githubUserMiddleware
+import com.playground.redux.appstate.UserState
+import com.playground.redux.middlewares.userMiddleware
 import com.playground.redux.reducer.appReducer
 import dagger.Module
 import dagger.Provides
@@ -15,7 +15,7 @@ class ApplicationModule {
     @Singleton
     @Provides
     fun provideStore(): Store<AppState> {
-        return Store(reducer = ::appReducer, state = AppState(GithubUserState()), middleware = listOf(githubUserMiddleware))
+        return Store(reducer = ::appReducer, state = AppState(UserState()), middleware = listOf(userMiddleware))
     }
 
 }

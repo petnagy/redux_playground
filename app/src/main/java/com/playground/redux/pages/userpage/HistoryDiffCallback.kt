@@ -1,4 +1,4 @@
-package com.playground.redux.pages.githubuserpage
+package com.playground.redux.pages.userpage
 
 import android.support.v7.util.DiffUtil
 
