@@ -1,11 +1,13 @@
 package com.playground.redux.pages.userpage
 
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.playground.redux.BR
 import com.playground.redux.R
 import com.playground.redux.appstate.AppState
 import com.playground.redux.databinding.ActivityMainBinding
+import com.playground.redux.navigation.Page
 import com.playground.redux.pages.userpage.viewmodel.UserViewModel
 import dagger.android.support.DaggerAppCompatActivity
 import tw.geothings.rekotlin.Store
@@ -42,7 +44,9 @@ class MainActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
 
     override fun newState(state: AppState) {
         state.apply {
-            //TODO do Activity level things
+            if (state.actualPage != Page.USER_SELECT_PAGE) {
+                startActivity(Intent(this@MainActivity, state.actualPage.clazz.java))
+            }
         }
     }
 }
