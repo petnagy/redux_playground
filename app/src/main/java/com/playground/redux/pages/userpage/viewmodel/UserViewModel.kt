@@ -15,7 +15,7 @@ import tw.geothings.rekotlin.StoreSubscriber
 
 class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscriber<AppState> {
 
-    var user: String = ""
+    var user: String = store.state.user.selectedUserName
 
     @Bindable
     var historyItems: List<HistoryItemViewModel> = emptyList()
