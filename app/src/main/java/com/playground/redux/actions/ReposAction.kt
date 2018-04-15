@@ -5,6 +5,6 @@ import tw.geothings.rekotlin.Action
 
 class LoadReposAction(val userName: String): Action
 
-class GitHubReposSuccessAction(repoList: List<GitHubRepo>): Action
+class GitHubReposSuccessAction(val repoList: List<GitHubRepo>): Action
 
 class GitHubReposFailedAction: Action

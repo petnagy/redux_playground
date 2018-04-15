@@ -10,6 +10,7 @@ import com.android.databinding.library.baseAdapters.BR
 
 class ReposViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscriber<AppState> {
 
+    @Bindable
     var repoItems: List<RepoItemViewModel> = emptyList()
 
     @Bindable
@@ -27,7 +28,9 @@ class ReposViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscri
         state.apply {
             Timber.d("Selected user: ${state.user.selectedUserName}")
             loading = state.repos.loading
+            repoItems = state.repos.repoList.map { repo -> RepoItemViewModel(repo) }
             notifyPropertyChanged(BR.loading)
+            notifyPropertyChanged(BR.repoItems)
         }
     }
 

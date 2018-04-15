@@ -39,7 +39,7 @@ fun repoReducer(action: Action, repoState: RepoState): RepoState {
     var state = repoState
     when(action) {
         is LoadReposAction -> state = state.copy(loading = true)
-        is GitHubReposSuccessAction -> state = state.copy(loading = false)
+        is GitHubReposSuccessAction -> state = state.copy(loading = false, repoList = action.repoList)
         is GitHubReposFailedAction -> state = state.copy(loading = false)
     }
     return state
