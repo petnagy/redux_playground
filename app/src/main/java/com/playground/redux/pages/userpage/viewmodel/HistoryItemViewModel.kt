@@ -8,8 +8,6 @@ class HistoryItemViewModel(private val text: String): ListItemViewModel() {
     @Bindable
     fun getText(): String = text
 
-    override fun getViewType(): Int {
-        return 436532
-    }
+    override fun getViewType() = 436532
 
 }
