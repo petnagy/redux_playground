@@ -10,6 +10,7 @@ import com.playground.redux.databinding.ActivityMainBinding
 import com.playground.redux.navigation.Page
 import com.playground.redux.pages.userpage.viewmodel.UserViewModel
 import dagger.android.support.DaggerAppCompatActivity
+import timber.log.Timber
 import tw.geothings.rekotlin.Store
 import tw.geothings.rekotlin.StoreSubscriber
 import javax.inject.Inject
@@ -38,6 +39,7 @@ class MainActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
 
     override fun onStop() {
         super.onStop()
+        Timber.d("onStop")
         viewModel.onStop()
         store.unsubscribe(this)
     }
@@ -46,6 +48,8 @@ class MainActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
         state.apply {
             if (state.actualPage != Page.USER_SELECT_PAGE) {
                 startActivity(Intent(this@MainActivity, state.actualPage.clazz.java))
+                store.unsubscribe(this@MainActivity)
+                viewModel.onStop()
             }
         }
     }

@@ -10,6 +10,6 @@ import tw.geothings.rekotlin.Store
 class MainActivityModule {
 
     @Provides
-    fun provideMainActivityViewModel(store: Store<AppState>) : UserViewModel = UserViewModel(store)
+    fun provideMainActivityViewModel(store: Store<AppState>) = UserViewModel(store)
 
 }

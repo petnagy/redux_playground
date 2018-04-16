@@ -1,7 +1,7 @@
 package com.playground.redux.navigation
 
 import android.app.Activity
-import com.playground.redux.pages.ReposActivity
+import com.playground.redux.pages.repospage.ReposActivity
 import com.playground.redux.pages.userpage.MainActivity
 import kotlin.reflect.KClass
 
