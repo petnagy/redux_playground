@@ -28,7 +28,7 @@ class ReposViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscri
         state.apply {
             Timber.d("Selected user: ${state.user.selectedUserName}")
             loading = state.repos.loading
-            repoItems = state.repos.repoList.map { repo -> RepoItemViewModel(repo) }
+            repoItems = state.repos.repoList.map { repo -> RepoItemViewModel(repo, store) }
             notifyPropertyChanged(BR.loading)
             notifyPropertyChanged(BR.repoItems)
         }
