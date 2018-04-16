@@ -20,6 +20,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Retrofit
 import com.google.gson.Gson
+import com.playground.redux.middlewares.loggingMiddleware
 import com.playground.redux.network.GitHubEndpoint
 
 
@@ -39,7 +40,7 @@ class ApplicationModule {
     @Provides
     fun provideStore(navigator: Navigator, endpoint: GitHubEndpoint): Store<AppState> {
         return Store(reducer = ::appReducer, state = AppState(UserState(), Page.USER_SELECT_PAGE, RepoState()),
-                middleware = listOf(userMiddleware, navigationMiddleware(navigator), reposMiddleware(endpoint)))
+                middleware = listOf(loggingMiddleware, userMiddleware, navigationMiddleware(navigator), reposMiddleware(endpoint)))
     }
 
     @Provides

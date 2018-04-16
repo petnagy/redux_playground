@@ -12,6 +12,15 @@ import timber.log.Timber
 import tw.geothings.rekotlin.DispatchFunction
 import tw.geothings.rekotlin.Middleware
 
+internal val loggingMiddleware: Middleware<AppState> = { dispatch, _ ->
+    { next ->
+        { action ->
+            Timber.d("Action: -> " + action::class.java.simpleName)
+            next(action)
+        }
+    }
+}
+
 fun navigationMiddleware(navigator: Navigator): Middleware<AppState> = { dispatch, _ ->
     { next ->
         { action ->
