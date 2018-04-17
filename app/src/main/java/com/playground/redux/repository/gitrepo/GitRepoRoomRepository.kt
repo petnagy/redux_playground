@@ -1,33 +1,30 @@
 package com.playground.redux.repository.gitrepo
 
-import android.arch.persistence.room.Entity
+import com.playground.redux.data.GitHubRepoEntity
 import com.playground.redux.repository.Repository
 import com.playground.redux.repository.Specification
 import com.playground.redux.room.GitRepoDao
 import io.reactivex.Observable
 
-@Entity(tableName = "git_repo", primaryKeys = ["userName", "repoName"])
-data class GitRepoEntity(val userName: String, val repoName: String, val favourite: Boolean)
+class GitRepoRoomRepository(private val dao: GitRepoDao): Repository<GitHubRepoEntity> {
 
-class GitRepoRoomRepository(private val dao: GitRepoDao): Repository<GitRepoEntity> {
-
-    override fun add(item: GitRepoEntity) {
+    override fun add(item: GitHubRepoEntity) {
         dao.insert(item)
     }
 
-    override fun add(items: Iterable<GitRepoEntity>) {
+    override fun add(items: Iterable<GitHubRepoEntity>) {
         items.forEach { item -> dao.insert(item) }
     }
 
-    override fun update(item: GitRepoEntity) {
+    override fun update(item: GitHubRepoEntity) {
         dao.update(item)
     }
 
-    override fun remove(item: GitRepoEntity) {
+    override fun remove(item: GitHubRepoEntity) {
         dao.delete(item)
     }
 
-    override fun query(specification: Specification): Observable<List<GitRepoEntity>> {
+    override fun query(specification: Specification): Observable<List<GitHubRepoEntity>> {
         if (specification !is GitRepoSpecification) {
             throw IllegalStateException("Wrong specification!!!!")
         }

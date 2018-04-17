@@ -6,11 +6,7 @@ abstract class ListItemViewModel: BaseObservable() {
 
     abstract fun getViewType(): Int
 
-    fun areItemsTheSame(newItem: ListItemViewModel): Boolean {
-        return this == newItem
-    }
+    abstract fun areItemsTheSame(newItem: ListItemViewModel): Boolean
 
-    fun areContentsTheSame(newItem: ListItemViewModel): Boolean {
-        return this == newItem
-    }
+    abstract fun areContentsTheSame(newItem: ListItemViewModel): Boolean
 }

@@ -41,6 +41,7 @@ fun repoReducer(action: Action, repoState: RepoState): RepoState {
         is LoadReposAction -> state = state.copy(loading = true)
         is GitHubReposSuccessAction -> state = state.copy(loading = false, repoList = action.repoList)
         is GitHubReposFailedAction -> state = state.copy(loading = false)
+        is ClearRepoItemsAction -> state = state.copy(repoList = emptyList())
     }
     return state
 }
