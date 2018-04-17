@@ -14,10 +14,9 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import tw.geothings.rekotlin.DispatchFunction
 import tw.geothings.rekotlin.Middleware
-import java.util.*
 import javax.inject.Named
 
-internal val loggingMiddleware: Middleware<AppState> = { dispatch, _ ->
+internal val loggingMiddleware: Middleware<AppState> = { _, _ ->
     { next ->
         { action ->
             Timber.d("Action: -> " + action::class.java.simpleName)
@@ -46,37 +45,44 @@ fun reposMiddleware(endpoint: GitHubEndpoint, @Named("GIT_REPO") repository: Rep
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(
-                                    { result -> handleGitHubRepoResult(dispatch, action.userName, result) },
+                                    { result -> handleGitHubRepoResult(dispatch, result) },
                                     { error -> handleGitHubRepoError(dispatch, error.message)}
                             )
                 }
-                is LoadFavouriteInfoFromDbAction -> handleLoadFromDatabase(dispatch, repository, action.userName, action.repoList)
-                is SaveFavouriteAction -> repository.add(GitHubRepoEntity(action.userName, action.repoName, true))
-                is RemoveFavouriteAction -> repository.remove(GitHubRepoEntity(action.userName, action.repoName, true))
+                is LoadFavouriteInfoFromDbAction -> handleLoadFromDatabase(dispatch, repository, action.userName)
+                is SaveFavouriteAction -> {
+                    repository.add(GitHubRepoEntity(action.userName, action.repoName))
+                    dispatch(SetFavouriteAction(action.repoName))
+                }
+                is RemoveFavouriteAction -> {
+                    repository.remove(GitHubRepoEntity(action.userName, action.repoName))
+                    dispatch(ClearFavouriteAction(action.repoName))
+                }
             }
             next(action)
         }
     }
 }
 
-fun handleLoadFromDatabase(dispatch: DispatchFunction, repository: Repository<GitHubRepoEntity>, userName: String, repoList: List<GitHubRepo>) {
+fun handleLoadFromDatabase(dispatch: DispatchFunction, repository: Repository<GitHubRepoEntity>, userName: String) {
     repository.query(GitRepoSpecification(userName)).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                    { result -> handleSuccessLoadFromDb(dispatch, result, repoList) },
+                    { result -> handleSuccessLoadFromDb(dispatch, result) },
                     { error -> handleGitHubRepoError(dispatch, "Error loading from DB " + error.message) }
             )
 }
 
-fun handleSuccessLoadFromDb(dispatch: DispatchFunction, result: List<GitHubRepoEntity>, repoList: List<GitHubRepo>) {
+fun handleSuccessLoadFromDb(dispatch: DispatchFunction, result: List<GitHubRepoEntity>) {
     val resultMap = result.map { it.repoName to it }.toMap()
-    val updatedList = repoList.map { it -> it.copy(favorite = resultMap.contains(it.name)) }.toList()
-    dispatch(GitHubReposSuccessAction(updatedList))
+    dispatch(FavouriteLoadedFromDbAction(resultMap))
 }
 
-fun handleGitHubRepoResult(dispatch: DispatchFunction, userName: String, repoList: List<GitHubRepo>) {
+fun handleGitHubRepoResult(dispatch: DispatchFunction, repoList: List<GitHubRepo>) {
     dispatch(GitHubReposSuccessAction(repoList))
-    dispatch(LoadFavouriteInfoFromDbAction(repoList, userName))
+    val userName = if (repoList.isNotEmpty()) repoList[0].owner.login else ""
+    //TODO no repos error message
+    dispatch(LoadFavouriteInfoFromDbAction(userName))
     Timber.d("GitHubRepos success Network Call")
 }
 

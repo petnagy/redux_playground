@@ -42,6 +42,18 @@ fun repoReducer(action: Action, repoState: RepoState): RepoState {
         is GitHubReposSuccessAction -> state = state.copy(loading = false, repoList = action.repoList)
         is GitHubReposFailedAction -> state = state.copy(loading = false)
         is ClearRepoItemsAction -> state = state.copy(repoList = emptyList())
+        is SetFavouriteAction -> {
+            var list = repoState.repoList.map { it -> if (it.name == action.repoName) it.copy(favorite = true) else it}
+            state = state.copy(repoList = list)
+        }
+        is ClearFavouriteAction -> {
+            var list = repoState.repoList.map { it -> if (it.name == action.repoName) it.copy(favorite = false) else it}
+            state = state.copy(repoList = list)
+        }
+        is FavouriteLoadedFromDbAction -> {
+            val updatedList = repoState.repoList.map { it -> it.copy(favorite = action.resultMap.contains(it.name)) }.toList()
+            state = state.copy(repoList = updatedList)
+        }
     }
     return state
 }

@@ -24,6 +24,6 @@ interface GitRepoDao {
     @Delete
     fun delete(item: GitHubRepoEntity)
 
-    @Query("SELECT * FROM git_repo WHERE userName = :userName")
+    @Query("SELECT * FROM favourite_git_repo WHERE userName = :userName")
     fun query(userName: String): Maybe<List<GitHubRepoEntity>>
 }
