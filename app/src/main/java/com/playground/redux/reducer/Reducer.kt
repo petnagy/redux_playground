@@ -43,11 +43,11 @@ fun repoReducer(action: Action, repoState: RepoState): RepoState {
         is GitHubReposFailedAction -> state = state.copy(loading = false)
         is ClearRepoItemsAction -> state = state.copy(repoList = emptyList())
         is SetFavouriteAction -> {
-            var list = repoState.repoList.map { it -> if (it.name == action.repoName) it.copy(favorite = true) else it}
+            val list = repoState.repoList.map { it -> if (it.name == action.repoName) it.copy(favorite = true) else it}
             state = state.copy(repoList = list)
         }
         is ClearFavouriteAction -> {
-            var list = repoState.repoList.map { it -> if (it.name == action.repoName) it.copy(favorite = false) else it}
+            val list = repoState.repoList.map { it -> if (it.name == action.repoName) it.copy(favorite = false) else it}
             state = state.copy(repoList = list)
         }
         is FavouriteLoadedFromDbAction -> {

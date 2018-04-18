@@ -10,6 +10,7 @@ import com.playground.redux.actions.SelectUserAction
 import com.playground.redux.actions.UserTypeAction
 import com.playground.redux.appstate.AppState
 import timber.log.Timber
+import tw.geothings.rekotlin.Action
 import tw.geothings.rekotlin.Store
 import tw.geothings.rekotlin.StoreSubscriber
 

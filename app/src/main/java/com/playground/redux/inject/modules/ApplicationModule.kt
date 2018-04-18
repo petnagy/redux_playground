@@ -86,7 +86,7 @@ class ApplicationModule {
     @Provides
     @Singleton
     fun provideAppDatabase(@AppContext context: Context): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabase::class.java, "database").allowMainThreadQueries().build()
+        return Room.databaseBuilder(context, AppDatabase::class.java, "database").build()
     }
 
     @Provides
