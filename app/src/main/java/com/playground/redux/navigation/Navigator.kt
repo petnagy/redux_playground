@@ -2,7 +2,7 @@ package com.playground.redux.navigation
 
 class Navigator {
 
-    val pages = listOf(Page.USER_SELECT_PAGE, Page.REPO_SELECT_PAGE)
+    val pages = listOf(Page.USER_SELECT_PAGE, Page.REPO_SELECT_PAGE, Page.COMMIT_LIST_PAGE)
 
     fun goNextPage(actualPage: Page): Page {
         var actualIndex = 0

@@ -1,5 +1,6 @@
 package com.playground.redux.pages.repospage
 
+import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.playground.redux.R
@@ -53,10 +54,14 @@ class ReposActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
     override fun newState(state: AppState) {
         state.apply {
             if (state.actualPage == Page.USER_SELECT_PAGE) {
-                store.dispatch(ClearRepoItemsAction())
                 store.unsubscribe(this@ReposActivity)
                 viewModel.onStop()
+                store.dispatch(ClearRepoItemsAction())
                 finish()
+            } else if (state.actualPage == Page.COMMIT_LIST_PAGE) {
+                store.unsubscribe(this@ReposActivity)
+                viewModel.onStop()
+                startActivity(Intent(this@ReposActivity, state.actualPage.clazz.java))
             }
         }
     }

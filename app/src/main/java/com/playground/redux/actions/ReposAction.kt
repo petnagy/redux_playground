@@ -23,3 +23,5 @@ class SetFavouriteAction(val repoName: String): Action
 class ClearFavouriteAction(val repoName: String): Action
 
 class FavouriteLoadedFromDbAction(val resultMap: Map<String, GitHubRepoEntity>): Action
+
+class RepoSelectedAction(val repoName: String): Action

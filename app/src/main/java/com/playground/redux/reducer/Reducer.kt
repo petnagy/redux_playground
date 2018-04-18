@@ -54,6 +54,7 @@ fun repoReducer(action: Action, repoState: RepoState): RepoState {
             val updatedList = repoState.repoList.map { it -> it.copy(favorite = action.resultMap.contains(it.name)) }.toList()
             state = state.copy(repoList = updatedList)
         }
+        is RepoSelectedAction -> state = state.copy(selectedRepoName = action.repoName)
     }
     return state
 }

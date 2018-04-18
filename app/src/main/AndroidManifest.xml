@@ -21,6 +21,8 @@
         </activity>
 
         <activity android:name=".pages.repospage.ReposActivity" />
+
+        <activity android:name=".pages.commitoage.CommitListActivity" />
     </application>
 
 </manifest>

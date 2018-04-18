@@ -3,6 +3,7 @@ package com.playground.redux.pages.repospage.viewmodel
 import android.databinding.Bindable
 import android.view.View
 import com.playground.redux.actions.RemoveFavouriteAction
+import com.playground.redux.actions.RepoSelectedAction
 import com.playground.redux.actions.SaveFavouriteAction
 import com.playground.redux.appstate.AppState
 import com.playground.redux.common.recyclerview.ListItemViewModel
@@ -37,5 +38,9 @@ class RepoItemViewModel(private val repo: GitHubRepo, val store: Store<AppState>
         } else {
             store.dispatch(SaveFavouriteAction(repo.owner.login, repo.name))
         }
+    }
+
+    fun onCardClicked(view: View) {
+        store.dispatch(RepoSelectedAction(repo.name))
     }
 }

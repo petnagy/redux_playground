@@ -2,6 +2,7 @@ package com.playground.redux.inject.modules
 
 import com.playground.redux.pages.userpage.MainActivity
 import com.playground.redux.inject.PerActivity
+import com.playground.redux.pages.commitoage.CommitListActivity
 import com.playground.redux.pages.repospage.ReposActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -16,4 +17,8 @@ interface DaggerActivityModule {
     @PerActivity
     @ContributesAndroidInjector(modules = [(ReposActivityModule::class)])
     fun contributeReposActivityInjector(): ReposActivity
+
+    @PerActivity
+    @ContributesAndroidInjector(modules = [(CommitPageModule::class)])
+    fun contributeCommitPageActivityInjector(): CommitListActivity
 }

@@ -30,6 +30,7 @@ fun navigationMiddleware(navigator: Navigator): Middleware<AppState> = { dispatc
         { action ->
             when (action) {
                 is SelectUserAction -> dispatch(NextPageAction(navigator.goNextPage(Page.USER_SELECT_PAGE)))
+                is RepoSelectedAction -> dispatch(NextPageAction(navigator.goNextPage(Page.REPO_SELECT_PAGE)))
             }
             next(action)
         }
