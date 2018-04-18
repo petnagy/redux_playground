@@ -2,6 +2,7 @@ package com.playground.redux.reducer
 
 import com.playground.redux.actions.*
 import com.playground.redux.appstate.AppState
+import com.playground.redux.appstate.CommitState
 import com.playground.redux.appstate.RepoState
 import com.playground.redux.appstate.UserState
 import com.playground.redux.navigation.Page
@@ -10,7 +11,8 @@ import tw.geothings.rekotlin.Action
 fun appReducer(action: Action, state: AppState?): AppState = AppState(
         user = userReducer(action, state!!.user),
         actualPage = navigationReducer(action, state.actualPage),
-        repos = repoReducer(action, state.repos)
+        repos = repoReducer(action, state.repos),
+        commits = commitsReducer(action, state.commits)
 )
 
 fun userReducer(action: Action, userState: UserState): UserState {
@@ -40,7 +42,7 @@ fun repoReducer(action: Action, repoState: RepoState): RepoState {
     when(action) {
         is LoadReposAction -> state = state.copy(loading = true)
         is GitHubReposSuccessAction -> state = state.copy(loading = false, repoList = action.repoList)
-        is GitHubReposFailedAction -> state = state.copy(loading = false)
+        is GitHubReposFailedAction -> state = state.copy(loading = false, repoList = emptyList())
         is ClearRepoItemsAction -> state = state.copy(repoList = emptyList())
         is SetFavouriteAction -> {
             val list = repoState.repoList.map { it -> if (it.name == action.repoName) it.copy(favorite = true) else it}
@@ -55,6 +57,17 @@ fun repoReducer(action: Action, repoState: RepoState): RepoState {
             state = state.copy(repoList = updatedList)
         }
         is RepoSelectedAction -> state = state.copy(selectedRepoName = action.repoName)
+    }
+    return state
+}
+
+fun commitsReducer(action: Action, commits: CommitState): CommitState {
+    var state = commits
+    when(action) {
+        is LoadCommitsAction -> state = state.copy(loading = true)
+        is CommitsLoadedFailedAction -> state = state.copy(loading = false, commitList = emptyList())
+        is CommitsLoadedSuccessAction -> state = state.copy(loading = false, commitList = action.commits)
+        is ClearCommitListAction -> state = state.copy(commitList = emptyList())
     }
     return state
 }

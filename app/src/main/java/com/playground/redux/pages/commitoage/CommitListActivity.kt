@@ -1,6 +1,8 @@
 package com.playground.redux.pages.commitoage
 
 import android.os.Bundle
+import com.playground.redux.actions.ClearCommitListAction
+import com.playground.redux.actions.LoadCommitsAction
 import com.playground.redux.actions.NextPageAction
 import com.playground.redux.appstate.AppState
 import com.playground.redux.navigation.Page
@@ -20,14 +22,20 @@ class CommitListActivity: DaggerAppCompatActivity(), StoreSubscriber<AppState> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        store.dispatch(LoadCommitsAction(store.state.user.selectedUserName, store.state.repos.selectedRepoName))
     }
 
     override fun onStart() {
         super.onStart()
+        store.subscribe(this)
+        viewModel.onStart()
     }
 
     override fun onStop() {
         super.onStop()
+        store.unsubscribe(this)
+        viewModel.onStop()
     }
 
     override fun onBackPressed() {
@@ -40,6 +48,7 @@ class CommitListActivity: DaggerAppCompatActivity(), StoreSubscriber<AppState> {
             if (state.actualPage != Page.COMMIT_LIST_PAGE) {
                 store.unsubscribe(this@CommitListActivity)
                 viewModel.onStop()
+                store.dispatch(ClearCommitListAction())
                 finish()
             }
         }

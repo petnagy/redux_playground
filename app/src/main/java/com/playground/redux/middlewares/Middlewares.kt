@@ -2,6 +2,7 @@ package com.playground.redux.middlewares
 
 import com.playground.redux.actions.*
 import com.playground.redux.appstate.AppState
+import com.playground.redux.data.GitCommit
 import com.playground.redux.data.GitHubRepo
 import com.playground.redux.data.GitHubRepoEntity
 import com.playground.redux.navigation.Navigator
@@ -101,4 +102,33 @@ internal val userMiddleware: Middleware<AppState> = { dispatch, _ ->
             next(action)
         }
     }
+}
+
+fun commitsMiddleware(endpoint: GitHubEndpoint, @Named("GIT_REPO") repository: Repository<GitHubRepoEntity>): Middleware<AppState> = { dispatch, _ ->
+    { next ->
+        { action ->
+            when (action) {
+                is LoadCommitsAction -> {
+                    endpoint.getCommits(action.userName, action.repoName)
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(
+                                    { result -> handleGitHubCommitsResult(dispatch, result) },
+                                    { error -> handleGitHubCommitsError(dispatch, error.message)}
+                            )
+                }
+            }
+            next(action)
+        }
+    }
+}
+
+fun handleGitHubCommitsResult(dispatch: DispatchFunction, result: List<GitCommit>) {
+    Timber.d("Commits load from net Success")
+    dispatch(CommitsLoadedSuccessAction(result))
+}
+
+fun handleGitHubCommitsError(dispatch: DispatchFunction, message: String?) {
+    Timber.e(message)
+    dispatch(CommitsLoadedFailedAction())
 }
