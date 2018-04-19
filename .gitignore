@@ -60,4 +60,4 @@ local.properties
 *~
 *.swp
 /.idea/checkstyle-idea.xml
-.idea/caches/
+/.idea/caches/
