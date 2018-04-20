@@ -45,9 +45,9 @@ class CommitListActivity: DaggerAppCompatActivity(), StoreSubscriber<AppState> {
 
     override fun newState(state: AppState) {
         state.apply {
-            if (state.actualPage != Page.COMMIT_LIST_PAGE) {
-                store.unsubscribe(this@CommitListActivity)
-                viewModel.onStop()
+            if (state.pageState.actualPage != Page.COMMIT_LIST_PAGE) {
+//                store.unsubscribe(this@CommitListActivity)
+//                viewModel.onStop()
                 store.dispatch(ClearCommitListAction())
                 finish()
             }

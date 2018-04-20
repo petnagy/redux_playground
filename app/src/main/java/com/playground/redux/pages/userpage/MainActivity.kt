@@ -44,8 +44,8 @@ class MainActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
 
     override fun newState(state: AppState) {
         state.apply {
-            if (state.actualPage != Page.USER_SELECT_PAGE) {
-                startActivity(Intent(this@MainActivity, state.actualPage.clazz.java))
+            if (state.pageState.actualPage != Page.USER_SELECT_PAGE) {
+                startActivity(Intent(this@MainActivity, state.pageState.actualPage.clazz.java))
                 store.unsubscribe(this@MainActivity)
                 viewModel.onStop()
             }

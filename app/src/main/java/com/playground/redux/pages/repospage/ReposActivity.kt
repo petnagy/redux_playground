@@ -53,15 +53,15 @@ class ReposActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
 
     override fun newState(state: AppState) {
         state.apply {
-            if (state.actualPage == Page.USER_SELECT_PAGE) {
+            if (state.pageState.actualPage == Page.USER_SELECT_PAGE) {
                 store.unsubscribe(this@ReposActivity)
                 viewModel.onStop()
                 store.dispatch(ClearRepoItemsAction())
                 finish()
-            } else if (state.actualPage == Page.COMMIT_LIST_PAGE) {
+            } else if (state.pageState.actualPage == Page.COMMIT_LIST_PAGE) {
                 store.unsubscribe(this@ReposActivity)
                 viewModel.onStop()
-                startActivity(Intent(this@ReposActivity, state.actualPage.clazz.java))
+                startActivity(Intent(this@ReposActivity, state.pageState.actualPage.clazz.java))
             }
         }
     }

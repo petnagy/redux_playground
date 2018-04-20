@@ -5,15 +5,11 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.playground.redux.ProjectApplication
-import com.playground.redux.appstate.AppState
-import com.playground.redux.appstate.CommitState
-import com.playground.redux.appstate.RepoState
-import com.playground.redux.appstate.UserState
+import com.playground.redux.appstate.*
 import com.playground.redux.data.GitHubRepoEntity
 import com.playground.redux.inject.AppContext
 import com.playground.redux.middlewares.*
 import com.playground.redux.navigation.Navigator
-import com.playground.redux.navigation.Page
 import com.playground.redux.network.GitHubEndpoint
 import com.playground.redux.reducer.appReducer
 import com.playground.redux.repository.Repository
@@ -51,7 +47,7 @@ class ApplicationModule {
     @Singleton
     @Provides
     fun provideStore(navigator: Navigator, endpoint: GitHubEndpoint, @Named("GIT_REPO") repository: Repository<GitHubRepoEntity>): Store<AppState> {
-        return Store(reducer = ::appReducer, state = AppState(UserState(), Page.USER_SELECT_PAGE, RepoState(), CommitState()),
+        return Store(reducer = ::appReducer, state = AppState(UserState(), PageState(), RepoState(), CommitState()),
                 middleware = listOf(loggingMiddleware,
                         userMiddleware,
                         navigationMiddleware(navigator),

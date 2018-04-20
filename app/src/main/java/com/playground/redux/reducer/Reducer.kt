@@ -1,16 +1,12 @@
 package com.playground.redux.reducer
 
 import com.playground.redux.actions.*
-import com.playground.redux.appstate.AppState
-import com.playground.redux.appstate.CommitState
-import com.playground.redux.appstate.RepoState
-import com.playground.redux.appstate.UserState
-import com.playground.redux.navigation.Page
+import com.playground.redux.appstate.*
 import tw.geothings.rekotlin.Action
 
 fun appReducer(action: Action, state: AppState?): AppState = AppState(
         user = userReducer(action, state!!.user),
-        actualPage = navigationReducer(action, state.actualPage),
+        pageState = navigationReducer(action, state.pageState),
         repos = repoReducer(action, state.repos),
         commits = commitsReducer(action, state.commits)
 )
@@ -29,10 +25,10 @@ fun userReducer(action: Action, userState: UserState): UserState {
     return state
 }
 
-fun navigationReducer(action: Action, pageState: Page): Page {
+fun navigationReducer(action: Action, pageState: PageState): PageState {
     var state = pageState
     when(action) {
-        is NextPageAction -> state = action.page
+        is NextPageAction -> state = state.copy(actualPage = action.page)
     }
     return state
 }
