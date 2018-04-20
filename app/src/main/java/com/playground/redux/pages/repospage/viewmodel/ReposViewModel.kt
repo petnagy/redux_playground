@@ -2,13 +2,13 @@ package com.playground.redux.pages.repospage.viewmodel
 
 import android.databinding.BaseObservable
 import android.databinding.Bindable
+import com.android.databinding.library.baseAdapters.BR
 import com.playground.redux.appstate.AppState
-import timber.log.Timber
+import com.playground.redux.appstate.RepoState
 import tw.geothings.rekotlin.Store
 import tw.geothings.rekotlin.StoreSubscriber
-import com.android.databinding.library.baseAdapters.BR
 
-class ReposViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscriber<AppState> {
+class ReposViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscriber<RepoState> {
 
     @Bindable
     var repoItems: List<RepoItemViewModel> = emptyList()
@@ -17,18 +17,21 @@ class ReposViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscri
     var loading: Boolean = false
 
     fun onStart() {
-        store.subscribe(this)
+        store.subscribe(this) {
+            it.select {
+                it.repos
+            }
+        }
     }
 
     fun onStop() {
         store.unsubscribe(this)
     }
 
-    override fun newState(state: AppState) {
+    override fun newState(state: RepoState) {
         state.apply {
-            Timber.d("Selected user: ${state.user.selectedUserName}")
-            loading = state.repos.loading
-            repoItems = state.repos.repoList.map { repo -> RepoItemViewModel(repo, store) }
+            this@ReposViewModel.loading = state.loading
+            repoItems = state.repoList.map { repo -> RepoItemViewModel(repo, store) }
             notifyPropertyChanged(BR.loading)
             notifyPropertyChanged(BR.repoItems)
         }

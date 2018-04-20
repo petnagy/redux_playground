@@ -1,4 +1,4 @@
-package com.playground.redux.pages.commitoage
+package com.playground.redux.pages.commitpage
 
 import android.os.Bundle
 import com.playground.redux.actions.ClearCommitListAction
@@ -6,7 +6,7 @@ import com.playground.redux.actions.LoadCommitsAction
 import com.playground.redux.actions.NextPageAction
 import com.playground.redux.appstate.AppState
 import com.playground.redux.navigation.Page
-import com.playground.redux.pages.commitoage.viewmodel.CommitListViewModel
+import com.playground.redux.pages.commitpage.viewmodel.CommitListViewModel
 import dagger.android.support.DaggerAppCompatActivity
 import tw.geothings.rekotlin.Store
 import tw.geothings.rekotlin.StoreSubscriber

@@ -9,11 +9,12 @@ import com.android.databinding.library.baseAdapters.BR
 import com.playground.redux.actions.SelectUserAction
 import com.playground.redux.actions.UserTypeAction
 import com.playground.redux.appstate.AppState
+import com.playground.redux.appstate.UserState
 import timber.log.Timber
 import tw.geothings.rekotlin.Store
 import tw.geothings.rekotlin.StoreSubscriber
 
-class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscriber<AppState> {
+class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscriber<UserState> {
 
     var user: String = store.state.user.selectedUserName
 
@@ -45,19 +46,22 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
     }
 
     fun onStart() {
-        store.subscribe(this)
+        store.subscribe(this) {
+            it.select {
+                it.user
+            }
+        }
     }
 
     fun onStop() {
         store.unsubscribe(this)
     }
 
-    override fun newState(state: AppState) {
+    override fun newState(state: UserState) {
         state.apply {
-            Timber.d("Selected user: ${state.user.selectedUserName}")
-            state.user.history.let {
-                historyItems = state.user.history
-                        .filter { typedUserName -> typedUserName.startsWith(state.user.typedName) }
+            state.history.let {
+                historyItems = state.history
+                        .filter { typedUserName -> typedUserName.startsWith(state.typedName) }
                         .map { typedUserName -> HistoryItemViewModel(typedUserName) }
                         .toMutableList()
                 notifyPropertyChanged(BR.historyItems)
