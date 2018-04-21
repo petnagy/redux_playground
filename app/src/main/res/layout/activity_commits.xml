@@ -5,9 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="com.playground.redux.pages.repospage.viewmodel.ReposViewModel" />
+            type="com.playground.redux.pages.commitpage.viewmodel.CommitListViewModel" />
 
         <import type="android.view.View" />
     </data>
@@ -26,7 +27,7 @@
             android:indeterminate="true"
             android:visibility="@{viewModel.loading ? View.VISIBLE : View.INVISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/historyList"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -42,19 +43,30 @@
             tools:text="GitHubUserName" />
 
         <TextView
+            android:id="@+id/repoName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:text="@{String.format(@string/repo_name, viewModel.repo)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/userName"
+            tools:text="GitHubRepoName" />
+
+        <TextView
             android:id="@+id/history_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:text="User's Repositories:"
+            android:text="Commits in the repo:"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userName" />
+            app:layout_constraintTop_toBottomOf="@+id/repoName" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/historyList"
+            android:id="@+id/commitList"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
@@ -65,9 +77,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/history_label"
-            bind:itemLayout="@{@layout/repo_item}"
-            bind:source="@{viewModel.repoItems}"
-            tools:listitem="@layout/repo_item" />
+            bind:itemLayout="@{@layout/commit_item}"
+            bind:source="@{viewModel.commitItems}"
+            tools:listitem="@layout/commit_item" />
+
 
     </android.support.constraint.ConstraintLayout>
 </layout>

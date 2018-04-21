@@ -1,10 +1,14 @@
 package com.playground.redux.pages.commitpage
 
+import android.databinding.DataBindingUtil
 import android.os.Bundle
+import com.playground.redux.BR
+import com.playground.redux.R
 import com.playground.redux.actions.ClearCommitListAction
 import com.playground.redux.actions.LoadCommitsAction
 import com.playground.redux.actions.NextPageAction
 import com.playground.redux.appstate.AppState
+import com.playground.redux.databinding.ActivityCommitsBinding
 import com.playground.redux.navigation.Page
 import com.playground.redux.pages.commitpage.viewmodel.CommitListViewModel
 import dagger.android.support.DaggerAppCompatActivity
@@ -12,7 +16,7 @@ import tw.geothings.rekotlin.Store
 import tw.geothings.rekotlin.StoreSubscriber
 import javax.inject.Inject
 
-class CommitListActivity: DaggerAppCompatActivity(), StoreSubscriber<AppState> {
+class CommitListActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
 
     @Inject
     lateinit var store: Store<AppState>
@@ -22,6 +26,9 @@ class CommitListActivity: DaggerAppCompatActivity(), StoreSubscriber<AppState> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val binding: ActivityCommitsBinding = DataBindingUtil.setContentView(this, R.layout.activity_commits)
+        binding.setVariable(BR.viewModel, viewModel)
+        binding.executePendingBindings()
 
         store.dispatch(LoadCommitsAction(store.state.user.selectedUserName, store.state.repos.selectedRepoName))
     }
