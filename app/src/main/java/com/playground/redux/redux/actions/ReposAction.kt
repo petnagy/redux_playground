@@ -1,4 +1,4 @@
-package com.playground.redux.actions
+package com.playground.redux.redux.actions
 
 import com.playground.redux.data.GitHubRepo
 import com.playground.redux.data.GitHubRepoEntity

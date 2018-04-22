@@ -2,10 +2,10 @@ package com.playground.redux.pages.repospage.viewmodel
 
 import android.databinding.Bindable
 import android.view.View
-import com.playground.redux.actions.RemoveFavouriteAction
-import com.playground.redux.actions.RepoSelectedAction
-import com.playground.redux.actions.SaveFavouriteAction
-import com.playground.redux.appstate.AppState
+import com.playground.redux.redux.actions.RemoveFavouriteAction
+import com.playground.redux.redux.actions.RepoSelectedAction
+import com.playground.redux.redux.actions.SaveFavouriteAction
+import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.common.recyclerview.ListItemViewModel
 import com.playground.redux.data.GitHubRepo
 import tw.geothings.rekotlin.Store

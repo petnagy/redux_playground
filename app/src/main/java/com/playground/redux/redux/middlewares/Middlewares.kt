@@ -1,7 +1,7 @@
-package com.playground.redux.middlewares
+package com.playground.redux.redux.middlewares
 
-import com.playground.redux.actions.*
-import com.playground.redux.appstate.AppState
+import com.playground.redux.redux.actions.*
+import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.data.GitCommit
 import com.playground.redux.data.GitHubRepo
 import com.playground.redux.data.GitHubRepoEntity
@@ -20,7 +20,11 @@ import javax.inject.Named
 internal val loggingMiddleware: Middleware<AppState> = { _, _ ->
     { next ->
         { action ->
-            Timber.d("Action: -> " + action::class.java.simpleName)
+            var log = "Action: -> " + action::class.java.simpleName
+            when(action) {
+                is UserTypeAction -> log += " typed: " + action.typedText
+            }
+            Timber.d(log)
             next(action)
         }
     }

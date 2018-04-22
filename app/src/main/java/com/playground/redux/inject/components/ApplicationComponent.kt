@@ -1,7 +1,7 @@
 package com.playground.redux.inject.components
 
 import com.playground.redux.ProjectApplication
-import com.playground.redux.appstate.AppState
+import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.inject.modules.ApplicationModule
 import com.playground.redux.inject.modules.DaggerActivityModule
 import dagger.Component

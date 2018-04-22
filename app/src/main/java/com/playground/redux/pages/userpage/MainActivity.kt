@@ -5,7 +5,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.playground.redux.BR
 import com.playground.redux.R
-import com.playground.redux.appstate.AppState
+import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.databinding.ActivityMainBinding
 import com.playground.redux.navigation.Page
 import com.playground.redux.pages.userpage.viewmodel.UserViewModel

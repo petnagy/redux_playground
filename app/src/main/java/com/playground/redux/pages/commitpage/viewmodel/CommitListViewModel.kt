@@ -3,9 +3,8 @@ package com.playground.redux.pages.commitpage.viewmodel
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import com.android.databinding.library.baseAdapters.BR
-import com.playground.redux.appstate.AppState
-import com.playground.redux.appstate.CommitState
-import com.playground.redux.pages.repospage.viewmodel.RepoItemViewModel
+import com.playground.redux.redux.appstate.AppState
+import com.playground.redux.redux.appstate.CommitState
 import tw.geothings.rekotlin.Store
 import tw.geothings.rekotlin.StoreSubscriber
 

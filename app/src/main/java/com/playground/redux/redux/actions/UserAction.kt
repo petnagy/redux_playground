@@ -1,4 +1,4 @@
-package com.playground.redux.actions
+package com.playground.redux.redux.actions
 
 import tw.geothings.rekotlin.Action
 

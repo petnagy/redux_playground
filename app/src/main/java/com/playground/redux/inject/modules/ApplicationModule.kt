@@ -5,13 +5,13 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.playground.redux.ProjectApplication
-import com.playground.redux.appstate.*
+import com.playground.redux.redux.appstate.*
 import com.playground.redux.data.GitHubRepoEntity
 import com.playground.redux.inject.AppContext
-import com.playground.redux.middlewares.*
+import com.playground.redux.redux.middlewares.*
 import com.playground.redux.navigation.Navigator
 import com.playground.redux.network.GitHubEndpoint
-import com.playground.redux.reducer.appReducer
+import com.playground.redux.redux.reducer.appReducer
 import com.playground.redux.repository.Repository
 import com.playground.redux.repository.gitrepo.GitRepoRoomRepository
 import com.playground.redux.room.AppDatabase

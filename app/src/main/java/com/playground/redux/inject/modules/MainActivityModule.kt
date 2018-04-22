@@ -1,6 +1,6 @@
 package com.playground.redux.inject.modules
 
-import com.playground.redux.appstate.AppState
+import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.pages.userpage.viewmodel.UserViewModel
 import dagger.Module
 import dagger.Provides

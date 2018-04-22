@@ -1,4 +1,4 @@
-package com.playground.redux.appstate
+package com.playground.redux.redux.appstate
 
 import com.playground.redux.data.GitCommit
 import tw.geothings.rekotlin.StateType

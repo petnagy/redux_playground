@@ -6,10 +6,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import com.android.databinding.library.baseAdapters.BR
-import com.playground.redux.actions.SelectUserAction
-import com.playground.redux.actions.UserTypeAction
-import com.playground.redux.appstate.AppState
-import com.playground.redux.appstate.UserState
+import com.playground.redux.redux.actions.SelectUserAction
+import com.playground.redux.redux.actions.UserTypeAction
+import com.playground.redux.redux.appstate.AppState
+import com.playground.redux.redux.appstate.UserState
 import timber.log.Timber
 import tw.geothings.rekotlin.Store
 import tw.geothings.rekotlin.StoreSubscriber

@@ -4,10 +4,10 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.playground.redux.BR
 import com.playground.redux.R
-import com.playground.redux.actions.ClearCommitListAction
-import com.playground.redux.actions.LoadCommitsAction
-import com.playground.redux.actions.NextPageAction
-import com.playground.redux.appstate.AppState
+import com.playground.redux.redux.actions.ClearCommitListAction
+import com.playground.redux.redux.actions.LoadCommitsAction
+import com.playground.redux.redux.actions.NextPageAction
+import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.databinding.ActivityCommitsBinding
 import com.playground.redux.navigation.Page
 import com.playground.redux.pages.commitpage.viewmodel.CommitListViewModel

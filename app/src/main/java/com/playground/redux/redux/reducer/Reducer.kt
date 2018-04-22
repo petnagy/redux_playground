@@ -1,7 +1,7 @@
-package com.playground.redux.reducer
+package com.playground.redux.redux.reducer
 
-import com.playground.redux.actions.*
-import com.playground.redux.appstate.*
+import com.playground.redux.redux.actions.*
+import com.playground.redux.redux.appstate.*
 import tw.geothings.rekotlin.Action
 
 fun appReducer(action: Action, state: AppState?): AppState = AppState(

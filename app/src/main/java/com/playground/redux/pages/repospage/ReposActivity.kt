@@ -5,10 +5,10 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.playground.redux.R
 import com.playground.redux.BR
-import com.playground.redux.actions.ClearRepoItemsAction
-import com.playground.redux.actions.LoadReposAction
-import com.playground.redux.actions.NextPageAction
-import com.playground.redux.appstate.AppState
+import com.playground.redux.redux.actions.ClearRepoItemsAction
+import com.playground.redux.redux.actions.LoadReposAction
+import com.playground.redux.redux.actions.NextPageAction
+import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.databinding.ActivityReposBinding
 import com.playground.redux.navigation.Page
 import com.playground.redux.pages.repospage.viewmodel.ReposViewModel
