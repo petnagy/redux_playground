@@ -4,11 +4,10 @@ import android.databinding.BaseObservable
 import android.databinding.Bindable
 import com.android.databinding.library.baseAdapters.BR
 import com.playground.redux.redux.appstate.AppState
-import com.playground.redux.redux.appstate.RepoState
-import tw.geothings.rekotlin.Store
-import tw.geothings.rekotlin.StoreSubscriber
+import com.playground.redux.redux_impl.Store
+import com.playground.redux.redux_impl.StoreSubscriber
 
-class ReposViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscriber<RepoState> {
+class ReposViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscriber<AppState> {
 
     @Bindable
     var repoItems: List<RepoItemViewModel> = emptyList()
@@ -17,21 +16,17 @@ class ReposViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscri
     var loading: Boolean = false
 
     fun onStart() {
-        store.subscribe(this) {
-            it.select {
-                it.repos
-            }
-        }
+        store.subscribe(this)
     }
 
     fun onStop() {
         store.unsubscribe(this)
     }
 
-    override fun newState(state: RepoState) {
+    override fun newState(state: AppState) {
         state.apply {
-            this@ReposViewModel.loading = state.loading
-            repoItems = state.repoList.map { repo -> RepoItemViewModel(repo, store) }
+            this@ReposViewModel.loading = state.repos.loading
+            repoItems = state.repos.repoList.map { repo -> RepoItemViewModel(repo, store) }
             notifyPropertyChanged(BR.loading)
             notifyPropertyChanged(BR.repoItems)
         }

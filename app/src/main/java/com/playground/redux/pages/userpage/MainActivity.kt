@@ -5,13 +5,13 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import com.playground.redux.BR
 import com.playground.redux.R
-import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.databinding.ActivityMainBinding
 import com.playground.redux.navigation.Page
 import com.playground.redux.pages.userpage.viewmodel.UserViewModel
+import com.playground.redux.redux.appstate.AppState
+import com.playground.redux.redux_impl.Store
+import com.playground.redux.redux_impl.StoreSubscriber
 import dagger.android.support.DaggerAppCompatActivity
-import tw.geothings.rekotlin.Store
-import tw.geothings.rekotlin.StoreSubscriber
 import javax.inject.Inject
 
 

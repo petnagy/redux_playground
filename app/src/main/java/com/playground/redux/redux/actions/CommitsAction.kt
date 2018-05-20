@@ -1,7 +1,7 @@
 package com.playground.redux.redux.actions
 
 import com.playground.redux.data.GitCommit
-import tw.geothings.rekotlin.Action
+import com.playground.redux.redux_impl.Action
 
 class LoadCommitsAction(val userName: String, val repoName: String): Action
 

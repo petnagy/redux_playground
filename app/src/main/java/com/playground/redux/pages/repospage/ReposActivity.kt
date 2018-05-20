@@ -12,9 +12,9 @@ import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.databinding.ActivityReposBinding
 import com.playground.redux.navigation.Page
 import com.playground.redux.pages.repospage.viewmodel.ReposViewModel
+import com.playground.redux.redux_impl.Store
+import com.playground.redux.redux_impl.StoreSubscriber
 import dagger.android.support.DaggerAppCompatActivity
-import tw.geothings.rekotlin.Store
-import tw.geothings.rekotlin.StoreSubscriber
 import javax.inject.Inject
 
 class ReposActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {

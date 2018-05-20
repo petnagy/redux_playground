@@ -11,9 +11,9 @@ import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.databinding.ActivityCommitsBinding
 import com.playground.redux.navigation.Page
 import com.playground.redux.pages.commitpage.viewmodel.CommitListViewModel
+import com.playground.redux.redux_impl.Store
+import com.playground.redux.redux_impl.StoreSubscriber
 import dagger.android.support.DaggerAppCompatActivity
-import tw.geothings.rekotlin.Store
-import tw.geothings.rekotlin.StoreSubscriber
 import javax.inject.Inject
 
 class CommitListActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
@@ -53,8 +53,8 @@ class CommitListActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> 
     override fun newState(state: AppState) {
         state.apply {
             if (state.pageState.actualPage != Page.COMMIT_LIST_PAGE) {
-//                store.unsubscribe(this@CommitListActivity)
-//                viewModel.onStop()
+                store.unsubscribe(this@CommitListActivity)
+                viewModel.onStop()
                 store.dispatch(ClearCommitListAction())
                 finish()
             }

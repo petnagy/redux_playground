@@ -2,9 +2,9 @@ package com.playground.redux.inject.modules
 
 import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.pages.userpage.viewmodel.UserViewModel
+import com.playground.redux.redux_impl.Store
 import dagger.Module
 import dagger.Provides
-import tw.geothings.rekotlin.Store
 
 @Module
 class MainActivityModule {

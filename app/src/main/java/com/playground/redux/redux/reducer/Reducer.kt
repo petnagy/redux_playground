@@ -2,9 +2,9 @@ package com.playground.redux.redux.reducer
 
 import com.playground.redux.redux.actions.*
 import com.playground.redux.redux.appstate.*
-import tw.geothings.rekotlin.Action
+import com.playground.redux.redux_impl.Action
 
-fun appReducer(action: Action, state: AppState?): AppState = AppState(
+fun appReducer(action: Action, state: AppState): AppState = AppState(
         user = userReducer(action, state!!.user),
         pageState = navigationReducer(action, state.pageState),
         repos = repoReducer(action, state.repos),

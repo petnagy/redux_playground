@@ -8,7 +8,7 @@ import com.playground.redux.redux.actions.SaveFavouriteAction
 import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.common.recyclerview.ListItemViewModel
 import com.playground.redux.data.GitHubRepo
-import tw.geothings.rekotlin.Store
+import com.playground.redux.redux_impl.Store
 
 class RepoItemViewModel(private val repo: GitHubRepo, val store: Store<AppState>): ListItemViewModel() {
 

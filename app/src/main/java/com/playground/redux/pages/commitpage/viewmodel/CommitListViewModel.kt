@@ -4,11 +4,10 @@ import android.databinding.BaseObservable
 import android.databinding.Bindable
 import com.android.databinding.library.baseAdapters.BR
 import com.playground.redux.redux.appstate.AppState
-import com.playground.redux.redux.appstate.CommitState
-import tw.geothings.rekotlin.Store
-import tw.geothings.rekotlin.StoreSubscriber
+import com.playground.redux.redux_impl.Store
+import com.playground.redux.redux_impl.StoreSubscriber
 
-class CommitListViewModel(val store: Store<AppState>): BaseObservable(), StoreSubscriber<CommitState> {
+class CommitListViewModel(val store: Store<AppState>): BaseObservable(), StoreSubscriber<AppState> {
 
     @Bindable
     var commitItems: List<CommitItemViewModel> = emptyList()
@@ -23,21 +22,17 @@ class CommitListViewModel(val store: Store<AppState>): BaseObservable(), StoreSu
     fun getRepo(): String = store.state.repos.selectedRepoName
 
     fun onStart() {
-        store.subscribe(this) {
-            it.select {
-                it.commits
-            }
-        }
+        store.subscribe(this)
     }
 
     fun onStop() {
         store.unsubscribe(this)
     }
 
-    override fun newState(state: CommitState) {
+    override fun newState(state: AppState) {
         state.apply {
-            this@CommitListViewModel.loading = state.loading
-            commitItems = state.commitList.map { commit -> CommitItemViewModel(commit) }
+            this@CommitListViewModel.loading = state.commits.loading
+            commitItems = state.commits.commitList.map { commit -> CommitItemViewModel(commit) }
             notifyPropertyChanged(BR.loading)
             notifyPropertyChanged(BR.commitItems)
         }

@@ -12,6 +12,7 @@ import com.playground.redux.redux.middlewares.*
 import com.playground.redux.navigation.Navigator
 import com.playground.redux.network.GitHubEndpoint
 import com.playground.redux.redux.reducer.appReducer
+import com.playground.redux.redux_impl.Store
 import com.playground.redux.repository.Repository
 import com.playground.redux.repository.gitrepo.GitRepoRoomRepository
 import com.playground.redux.room.AppDatabase
@@ -22,14 +23,13 @@ import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import tw.geothings.rekotlin.Store
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
 
 @Module
-class ApplicationModule {
+class  ApplicationModule {
 
     companion object {
         private const val TIME_OUT_IN_SEC: Long = 60
@@ -47,8 +47,8 @@ class ApplicationModule {
     @Singleton
     @Provides
     fun provideStore(navigator: Navigator, endpoint: GitHubEndpoint, @Named("GIT_REPO") repository: Repository<GitHubRepoEntity>): Store<AppState> {
-        return Store(reducer = ::appReducer, state = AppState(UserState(), PageState(), RepoState(), CommitState()),
-                middleware = listOf(loggingMiddleware,
+        return Store(reducer = ::appReducer, initState = AppState(UserState(), PageState(), RepoState(), CommitState()),
+                middlewares = listOf(loggingMiddleware,
                         userMiddleware,
                         navigationMiddleware(navigator),
                         reposMiddleware(endpoint, repository),

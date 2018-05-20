@@ -9,12 +9,11 @@ import com.android.databinding.library.baseAdapters.BR
 import com.playground.redux.redux.actions.SelectUserAction
 import com.playground.redux.redux.actions.UserTypeAction
 import com.playground.redux.redux.appstate.AppState
-import com.playground.redux.redux.appstate.UserState
+import com.playground.redux.redux_impl.Store
+import com.playground.redux.redux_impl.StoreSubscriber
 import timber.log.Timber
-import tw.geothings.rekotlin.Store
-import tw.geothings.rekotlin.StoreSubscriber
 
-class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscriber<UserState> {
+class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscriber<AppState> {
 
     var user: String = store.state.user.selectedUserName
 
@@ -46,22 +45,18 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
     }
 
     fun onStart() {
-        store.subscribe(this) {
-            it.select {
-                it.user
-            }
-        }
+        store.subscribe(this)
     }
 
     fun onStop() {
         store.unsubscribe(this)
     }
 
-    override fun newState(state: UserState) {
+    override fun newState(state: AppState) {
         state.apply {
-            state.history.let {
-                historyItems = state.history
-                        .filter { typedUserName -> typedUserName.startsWith(state.typedName) }
+            state.user.history.let {
+                historyItems = state.user.history
+                        .filter { typedUserName -> typedUserName.startsWith(state.user.typedName) }
                         .map { typedUserName -> HistoryItemViewModel(typedUserName) }
                         .toMutableList()
                 notifyPropertyChanged(BR.historyItems)

@@ -2,7 +2,7 @@ package com.playground.redux.redux.actions
 
 import com.playground.redux.data.GitHubRepo
 import com.playground.redux.data.GitHubRepoEntity
-import tw.geothings.rekotlin.Action
+import com.playground.redux.redux_impl.Action
 
 class LoadReposAction(val userName: String): Action
 
