@@ -26,7 +26,7 @@ class Store<State>(reducer: Reducer<State>, middlewareList: List<Middleware<Stat
             subscriptions.forEach { subscriber -> subscriber.newState(field) }
     }
 
-    private var subscriptions: CopyOnWriteArrayList<StoreSubscriber<State>> = CopyOnWriteArrayList()
+    private var subscriptions: MutableList<StoreSubscriber<State>> = CopyOnWriteArrayList()
 
     init {
         dispatchers.add(object: NextDispatcher {

@@ -48,7 +48,7 @@ class  ApplicationModule {
     @Provides
     fun provideStore(navigator: Navigator, endpoint: GitHubEndpoint, @Named("GIT_REPO") repository: Repository<GitHubRepoEntity>): Store<AppState> {
         return Store(reducer = ::appReducer, initState = AppState(UserState(), PageState(), RepoState(), CommitState()),
-                middlewares = listOf(loggingMiddleware,
+                middlewareList = listOf(loggingMiddleware,
                         userMiddleware,
                         navigationMiddleware(navigator),
                         reposMiddleware(endpoint, repository),
