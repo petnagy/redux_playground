@@ -17,22 +17,24 @@ import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Named
 
-internal val loggingMiddleware: Middleware<AppState> = { _, action ->
+internal val loggingMiddleware: Middleware<AppState> = { _, action, next ->
     var log = "Action: -> " + action::class.java.simpleName
     when (action) {
         is UserTypeAction -> log += " typed: " + action.typedText
     }
     Timber.d(log)
+    next.dispatch(action)
 }
 
-fun navigationMiddleware(navigator: Navigator): Middleware<AppState> = { store, action ->
+fun navigationMiddleware(navigator: Navigator): Middleware<AppState> = { store, action, next ->
     when (action) {
         is SelectUserAction -> store.dispatch(NextPageAction(navigator.goNextPage(Page.USER_SELECT_PAGE)))
         is RepoSelectedAction -> store.dispatch(NextPageAction(navigator.goNextPage(Page.REPO_SELECT_PAGE)))
     }
+    next.dispatch(action)
 }
 
-fun reposMiddleware(endpoint: GitHubEndpoint, @Named("GIT_REPO") repository: Repository<GitHubRepoEntity>): Middleware<AppState> = { store, action ->
+fun reposMiddleware(endpoint: GitHubEndpoint, @Named("GIT_REPO") repository: Repository<GitHubRepoEntity>): Middleware<AppState> = { store, action, next ->
     when (action) {
         is LoadReposAction -> {
             endpoint.getRepos(action.userName)
@@ -53,6 +55,7 @@ fun reposMiddleware(endpoint: GitHubEndpoint, @Named("GIT_REPO") repository: Rep
             store.dispatch(ClearFavouriteAction(action.repoName))
         }
     }
+    next.dispatch(action)
 }
 
 
@@ -83,13 +86,14 @@ fun handleGitHubRepoError(store: Store<AppState>, message: String?) {
     Timber.e(message)
 }
 
-internal val userMiddleware: Middleware<AppState> = { store, action ->
+internal val userMiddleware: Middleware<AppState> = { store, action, next ->
     when (action) {
         is SelectUserAction -> store.dispatch(AddHistoryAction(action.selectedUser))
     }
+    next.dispatch(action)
 }
 
-fun commitsMiddleware(endpoint: GitHubEndpoint, @Named("GIT_REPO") repository: Repository<GitHubRepoEntity>): Middleware<AppState> = { store, action ->
+fun commitsMiddleware(endpoint: GitHubEndpoint, @Named("GIT_REPO") repository: Repository<GitHubRepoEntity>): Middleware<AppState> = { store, action, next ->
     when (action) {
         is LoadCommitsAction -> {
             endpoint.getCommits(action.userName, action.repoName)
@@ -101,6 +105,7 @@ fun commitsMiddleware(endpoint: GitHubEndpoint, @Named("GIT_REPO") repository: R
                     )
         }
     }
+    next.dispatch(action)
 }
 
 fun handleGitHubCommitsResult(store: Store<AppState>, result: List<GitCommit>) {
