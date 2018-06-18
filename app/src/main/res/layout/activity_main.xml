@@ -9,12 +9,26 @@
         <variable
             name="viewModel"
             type="com.playground.redux.pages.userpage.viewmodel.UserViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".pages.userpage.MainActivity">
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:indeterminate="true"
+            android:visibility="@{viewModel.loading ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/editUser"
@@ -27,7 +41,7 @@
             bind:addTextWatcher="@{viewModel.userWatcher}"
             app:layout_constraintEnd_toStartOf="@+id/guideline"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/progress" />
 
         <Button
             android:id="@+id/btnOk"
@@ -40,7 +54,7 @@
             android:onClick="@{viewModel::onOkButtonClicked}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/progress" />
 
         <TextView
             android:id="@+id/history_label"

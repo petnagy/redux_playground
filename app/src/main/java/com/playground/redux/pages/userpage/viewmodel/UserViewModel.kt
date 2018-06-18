@@ -18,6 +18,9 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
     var user: String = store.state.user.selectedUserName
 
     @Bindable
+    var loading: Boolean = false
+
+    @Bindable
     var historyItems: List<HistoryItemViewModel> = emptyList()
 
     fun onOkButtonClicked(view: View) {
