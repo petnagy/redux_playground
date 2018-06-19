@@ -82,6 +82,8 @@
             app:layout_constraintTop_toBottomOf="@+id/history_label"
             bind:itemLayout="@{@layout/history_item}"
             bind:source="@{viewModel.historyItems}"
+            bind:swipeToDelete="@{true}"
+            bind:swipeToDeleteCallback="@{viewModel.swipeToDeleteCallback}"
             tools:listitem="@layout/history_item" />
 
         <android.support.constraint.Guideline

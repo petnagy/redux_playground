@@ -14,3 +14,5 @@ class AddHistoryAction(val selectedUser: String): Action
 class UserTypeAction(val typedText: String): Action
 
 class HistoryItemDeleteAction(val userName: String): Action
+
+class SwipeToDeleteAction(val position: Int): Action

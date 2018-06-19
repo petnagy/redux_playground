@@ -4,6 +4,7 @@ import android.databinding.BindingAdapter
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import com.playground.redux.common.recyclerview.SpaceItemDecorator
 import com.playground.redux.common.recyclerview.ListItemViewModel
 import com.playground.redux.common.recyclerview.RecyclerViewAdapter
@@ -16,6 +17,13 @@ fun setupRecyclerViewSource(recyclerView: RecyclerView, source: List<ListItemVie
 @BindingAdapter("itemLayout")
 fun setupRecyclerViewItemLayout(recyclerView: RecyclerView, @LayoutRes itemLayout: Int) {
     getAdapter(recyclerView).itemLayout = itemLayout
+}
+
+@BindingAdapter("swipeToDelete", "swipeToDeleteCallback")
+fun setupSwipeToDelete(recyclerView: RecyclerView, swipeToDelete: Boolean, swipeToDeleteCallback: ItemTouchHelper.SimpleCallback) {
+    if (swipeToDelete) {
+        ItemTouchHelper(swipeToDeleteCallback).attachToRecyclerView(recyclerView)
+    }
 }
 
 private fun getAdapter(recyclerView: RecyclerView): RecyclerViewAdapter {
