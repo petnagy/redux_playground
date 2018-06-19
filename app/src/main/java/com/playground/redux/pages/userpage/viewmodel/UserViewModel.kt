@@ -60,7 +60,7 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
             state.user.history.let {
                 historyItems = state.user.history
                         .filter { typedUserName -> typedUserName.startsWith(state.user.typedName) }
-                        .map { typedUserName -> HistoryItemViewModel(typedUserName) }
+                        .map { typedUserName -> HistoryItemViewModel(typedUserName, store) }
                         .toMutableList()
                 notifyPropertyChanged(BR.historyItems)
             }

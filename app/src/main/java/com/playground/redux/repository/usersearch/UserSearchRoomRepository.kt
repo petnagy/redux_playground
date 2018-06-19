@@ -36,8 +36,15 @@ class UserSearchRoomRepository(private val dao: UserSearchDao): Repository<UserS
     }
 
     override fun remove(item: UserSearch) {
+        //Do nothing
+    }
+
+    override fun remove(specification: Specification) {
+        if (specification !is HistoryItemDeleteSpecification) {
+            throw IllegalStateException("Wrong specification!!!!")
+        }
         Single.fromCallable {
-            dao.delete(item)
+            dao.delete(specification.userName)
         }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()

@@ -39,8 +39,8 @@ interface UserSearchDao {
     @Update
     fun update(item: UserSearch)
 
-    @Delete
-    fun delete(item: UserSearch)
+    @Query("DELETE FROM user_search WHERE userName = :userName")
+    fun delete(userName: String)
 
     @Query("SELECT * FROM user_search ORDER BY timeStamp DESC")
     fun queryAll(): Maybe<List<UserSearch>>

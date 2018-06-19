@@ -12,5 +12,7 @@ interface Repository<T> {
 
     fun remove(item: T)
 
+    fun remove(specification: Specification)
+
     fun query(specification: Specification): Observable<List<T>>
 }
