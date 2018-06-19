@@ -8,6 +8,7 @@ import com.playground.redux.R
 import com.playground.redux.databinding.ActivityMainBinding
 import com.playground.redux.navigation.Page
 import com.playground.redux.pages.userpage.viewmodel.UserViewModel
+import com.playground.redux.redux.actions.LoadPreviousSearchAction
 import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.redux_impl.Store
 import com.playground.redux.redux_impl.StoreSubscriber
@@ -28,6 +29,8 @@ class MainActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.setVariable(BR.viewModel, viewModel)
         binding.executePendingBindings()
+
+        store.dispatch(LoadPreviousSearchAction())
     }
 
     override fun onStart() {

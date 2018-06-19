@@ -5,7 +5,7 @@ import com.playground.redux.redux.appstate.*
 import com.playground.redux.redux_impl.Action
 
 fun appReducer(action: Action, state: AppState): AppState = AppState(
-        user = userReducer(action, state!!.user),
+        user = userReducer(action, state.user),
         pageState = navigationReducer(action, state.pageState),
         repos = repoReducer(action, state.repos),
         commits = commitsReducer(action, state.commits)
@@ -14,11 +14,14 @@ fun appReducer(action: Action, state: AppState): AppState = AppState(
 fun userReducer(action: Action, userState: UserState): UserState {
     var state = userState
     when(action) {
+        is LoadPreviousSearchAction -> state = state.copy(loading = true)
+        is PreviousSearchListAction -> state = state.copy(loading = false, history = action.prevUserSearches.map { it.userName }.toList())
         is SelectUserAction -> state = state.copy(selectedUserName = action.selectedUser)
         is UserTypeAction -> state = state.copy(typedName = action.typedText)
         is AddHistoryAction -> {
-            val historyList = state.history.toMutableSet()
-            historyList.add(action.selectedUser)
+            val historyList = state.history.toMutableList()
+            historyList.remove(action.selectedUser)
+            historyList.add(0, action.selectedUser)
             state = state.copy(history = historyList.toList())
         }
     }

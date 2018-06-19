@@ -7,6 +7,7 @@ import com.google.gson.GsonBuilder
 import com.playground.redux.ProjectApplication
 import com.playground.redux.redux.appstate.*
 import com.playground.redux.data.GitHubRepoEntity
+import com.playground.redux.data.UserSearch
 import com.playground.redux.inject.AppContext
 import com.playground.redux.redux.middlewares.*
 import com.playground.redux.navigation.Navigator
@@ -15,8 +16,10 @@ import com.playground.redux.redux.reducer.appReducer
 import com.playground.redux.redux_impl.Store
 import com.playground.redux.repository.Repository
 import com.playground.redux.repository.gitrepo.GitRepoRoomRepository
+import com.playground.redux.repository.usersearch.UserSearchRoomRepository
 import com.playground.redux.room.AppDatabase
 import com.playground.redux.room.GitRepoDao
+import com.playground.redux.room.UserSearchDao
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -46,13 +49,15 @@ class  ApplicationModule {
 
     @Singleton
     @Provides
-    fun provideStore(navigator: Navigator, endpoint: GitHubEndpoint, @Named("GIT_REPO") repository: Repository<GitHubRepoEntity>): Store<AppState> {
+    fun provideStore(navigator: Navigator, endpoint: GitHubEndpoint,
+                     @Named("GIT_REPO") githubRepo: Repository<GitHubRepoEntity>,
+                     @Named("USER_SEARCH") userSearchRepo: Repository<UserSearch>): Store<AppState> {
         return Store(reducer = ::appReducer, initState = AppState(UserState(), PageState(), RepoState(), CommitState()),
                 middlewareList = listOf(loggingMiddleware,
-                        userMiddleware,
+                        userMiddleware(userSearchRepo),
                         navigationMiddleware(navigator),
-                        reposMiddleware(endpoint, repository),
-                        commitsMiddleware(endpoint, repository)))
+                        reposMiddleware(endpoint, githubRepo),
+                        commitsMiddleware(endpoint, githubRepo)))
     }
 
     @Provides
@@ -95,6 +100,17 @@ class  ApplicationModule {
 
     @Provides
     @Singleton
+    fun provideUserSearch(appDatabase: AppDatabase): UserSearchDao {
+        return appDatabase.userSearchDao()
+    }
+
+    @Provides
+    @Singleton
     @Named("GIT_REPO")
     fun provideGitRepoRoomRepository(gitRepoDao: GitRepoDao): Repository<GitHubRepoEntity> = GitRepoRoomRepository(gitRepoDao)
+
+    @Provides
+    @Singleton
+    @Named("USER_SEARCH")
+    fun provideUserSearchRepository(userSearchDao: UserSearchDao): Repository<UserSearch> = UserSearchRoomRepository(userSearchDao)
 }
