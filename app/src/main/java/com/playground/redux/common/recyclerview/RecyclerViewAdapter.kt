@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.playground.redux.BR
 
-class RecyclerViewAdapter : RecyclerView.Adapter<BindigViewHolder>() {
+class RecyclerViewAdapter : RecyclerView.Adapter<BindingViewHolder>() {
 
     var items: MutableList<ListItemViewModel> = ArrayList()
         set(value) {
@@ -23,21 +23,21 @@ class RecyclerViewAdapter : RecyclerView.Adapter<BindigViewHolder>() {
 
     private var oldItems: ArrayList<ListItemViewModel> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindigViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingViewHolder {
         var dataBinding: ViewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), itemLayout, parent, false)
-        return BindigViewHolder(dataBinding)
+        return BindingViewHolder(dataBinding)
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
 
-    override fun onBindViewHolder(holder: BindigViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BindingViewHolder, position: Int) {
         holder.getBinding().setVariable(BR.viewModel, items[position])
         holder.getBinding().executePendingBindings()
     }
 
-    override fun onBindViewHolder(holder: BindigViewHolder, position: Int, payloads: MutableList<Any>) {
+    override fun onBindViewHolder(holder: BindingViewHolder, position: Int, payloads: MutableList<Any>) {
         if (payloads.isEmpty()) {
             onBindViewHolder(holder, position)
         }

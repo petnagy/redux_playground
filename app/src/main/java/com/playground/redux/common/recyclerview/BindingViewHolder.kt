@@ -3,7 +3,7 @@ package com.playground.redux.common.recyclerview
 import android.databinding.ViewDataBinding
 import android.support.v7.widget.RecyclerView
 
-class BindigViewHolder: RecyclerView.ViewHolder {
+class BindingViewHolder: RecyclerView.ViewHolder {
 
     private val binding: ViewDataBinding
 

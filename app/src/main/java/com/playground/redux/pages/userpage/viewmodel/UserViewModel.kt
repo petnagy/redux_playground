@@ -75,8 +75,8 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
 
     override fun newState(state: AppState) {
         state.apply {
-            state.user.history.let {
-                historyItems = state.user.history
+            state.user.history.let { historyList ->
+                historyItems = historyList
                         .filter { typedUserName -> typedUserName.startsWith(state.user.typedName) }
                         .map { typedUserName -> HistoryItemViewModel(typedUserName, store) }
                         .toMutableList()
