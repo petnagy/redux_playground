@@ -8,7 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import com.android.databinding.library.baseAdapters.BR
-import com.playground.redux.redux.actions.SelectUserAction
+import com.playground.redux.redux.actions.UserSelectionAction
 import com.playground.redux.redux.actions.SwipeToDeleteAction
 import com.playground.redux.redux.actions.UserTypeAction
 import com.playground.redux.redux.appstate.AppState
@@ -29,7 +29,7 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
     fun onOkButtonClicked(view: View) {
         Timber.d("Ok Button pressed")
         if (user.isNotBlank()) {
-            store.dispatch(SelectUserAction(user))
+            store.dispatch(UserSelectionAction(user))
         }
     }
 

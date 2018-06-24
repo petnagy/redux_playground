@@ -16,7 +16,7 @@ fun userReducer(action: Action, userState: UserState): UserState {
     when(action) {
         is LoadPreviousSearchAction -> state = state.copy(loading = true)
         is PreviousSearchListAction -> state = state.copy(loading = false, history = action.prevUserSearches.map { it.userName }.toList())
-        is SelectUserAction -> state = state.copy(selectedUserName = action.selectedUser)
+        is UserSelectionAction -> state = state.copy(selectedUserName = action.selectedUser)
         is UserTypeAction -> state = state.copy(typedName = action.typedText)
         is AddHistoryAction -> {
             val historyList = state.history.toMutableList()

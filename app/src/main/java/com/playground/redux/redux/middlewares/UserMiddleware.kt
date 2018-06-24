@@ -15,7 +15,7 @@ import javax.inject.Named
 fun userMiddleware(@Named("USER_SEARCH") userRepository: Repository<UserSearch>): Middleware<AppState> = { store, action, next ->
     when (action) {
         is LoadPreviousSearchAction -> loadPreviousUserSearches(store, userRepository)
-        is SelectUserAction -> handleUserSelectionAction(store, userRepository, action)
+        is UserSelectionAction -> handleUserSelectionAction(store, userRepository, action)
         is HistoryItemDeleteAction -> userRepository.remove(HistoryItemDeleteSpecification(action.userName))
         is SwipeToDeleteAction -> handleSwipeToDeleteAction(store, action)
     }
@@ -40,9 +40,9 @@ fun handleUserSearchesError(store: Store<AppState>) {
     //TODO error handling
 }
 
-fun handleUserSelectionAction(store: Store<AppState>, userRepository: Repository<UserSearch>, action: SelectUserAction) {
-    store.dispatch(AddHistoryAction(action.selectedUser))
-    userRepository.add(UserSearch(action.selectedUser, System.currentTimeMillis()))
+fun handleUserSelectionAction(store: Store<AppState>, userRepository: Repository<UserSearch>, selectionAction: UserSelectionAction) {
+    store.dispatch(AddHistoryAction(selectionAction.selectedUser))
+    userRepository.add(UserSearch(selectionAction.selectedUser, System.currentTimeMillis()))
 }
 
 fun handleSwipeToDeleteAction(store: Store<AppState>, action: SwipeToDeleteAction) {

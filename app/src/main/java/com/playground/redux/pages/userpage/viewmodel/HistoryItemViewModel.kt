@@ -3,9 +3,8 @@ package com.playground.redux.pages.userpage.viewmodel
 import android.databinding.Bindable
 import android.view.View
 import com.playground.redux.common.recyclerview.ListItemViewModel
-import com.playground.redux.data.UserSearch
 import com.playground.redux.redux.actions.HistoryItemDeleteAction
-import com.playground.redux.redux.actions.SelectUserAction
+import com.playground.redux.redux.actions.UserSelectionAction
 import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.redux_impl.Store
 import timber.log.Timber
@@ -27,7 +26,7 @@ class HistoryItemViewModel(private val text: String, private val store: Store<Ap
 
     fun onHistoryItemClicked(view: View) {
         Timber.d("HistoryItemClicked: $text")
-        store.dispatch(SelectUserAction(text))
+        store.dispatch(UserSelectionAction(text))
     }
 
     fun onHistoryItemDeleteClicked(view: View) {

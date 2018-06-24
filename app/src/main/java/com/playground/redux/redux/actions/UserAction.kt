@@ -7,7 +7,7 @@ class LoadPreviousSearchAction: Action
 
 class PreviousSearchListAction(val prevUserSearches: List<UserSearch>): Action
 
-class SelectUserAction(val selectedUser: String) : Action
+class UserSelectionAction(val selectedUser: String) : Action
 
 class AddHistoryAction(val selectedUser: String): Action
 
