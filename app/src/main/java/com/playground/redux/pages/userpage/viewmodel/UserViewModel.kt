@@ -56,8 +56,8 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
-                if (viewHolder != null) {
-                    store.dispatch(PreviousSearchDeleteAction(viewHolder.adapterPosition))
+                viewHolder?.let { swipedViewHolder ->
+                    store.dispatch(PreviousSearchDeleteAction(swipedViewHolder.adapterPosition))
                 }
             }
         }
