@@ -26,7 +26,7 @@ fun userReducer(action: Action, userState: UserState): UserState {
         }
         is HistoryItemDeleteAction -> {
             val historyList = state.history.toMutableList()
-            historyList.remove(action.userName)
+            historyList.removeAt(action.position)
             state = state.copy(history = historyList.toList())
         }
     }

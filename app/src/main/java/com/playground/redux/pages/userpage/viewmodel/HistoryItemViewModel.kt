@@ -3,13 +3,13 @@ package com.playground.redux.pages.userpage.viewmodel
 import android.databinding.Bindable
 import android.view.View
 import com.playground.redux.common.recyclerview.ListItemViewModel
-import com.playground.redux.redux.actions.HistoryItemDeleteAction
+import com.playground.redux.redux.actions.PreviousSearchDeleteAction
 import com.playground.redux.redux.actions.UserSelectionAction
 import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.redux_impl.Store
 import timber.log.Timber
 
-class HistoryItemViewModel(private val text: String, private val store: Store<AppState>): ListItemViewModel() {
+class HistoryItemViewModel(private val index: Int, private val text: String, private val store: Store<AppState>): ListItemViewModel() {
 
     override fun areItemsTheSame(newItem: ListItemViewModel): Boolean {
         return this.text == (newItem as HistoryItemViewModel).text
@@ -31,7 +31,7 @@ class HistoryItemViewModel(private val text: String, private val store: Store<Ap
 
     fun onHistoryItemDeleteClicked(view: View) {
         Timber.d("HistoryItemDeleteClicked: $text")
-        store.dispatch(HistoryItemDeleteAction(text))
+        store.dispatch(PreviousSearchDeleteAction(index))
     }
 
 }

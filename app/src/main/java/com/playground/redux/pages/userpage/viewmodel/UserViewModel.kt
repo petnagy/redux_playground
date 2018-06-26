@@ -8,9 +8,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import com.android.databinding.library.baseAdapters.BR
-import com.playground.redux.redux.actions.UserSelectionAction
-import com.playground.redux.redux.actions.SwipeToDeleteAction
-import com.playground.redux.redux.actions.UserTypeAction
+import com.playground.redux.redux.actions.*
 import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.redux_impl.Store
 import com.playground.redux.redux_impl.StoreSubscriber
@@ -59,7 +57,7 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
                 if (viewHolder != null) {
-                    store.dispatch(SwipeToDeleteAction(viewHolder.adapterPosition))
+                    store.dispatch(PreviousSearchDeleteAction(viewHolder.adapterPosition))
                 }
             }
         }
@@ -78,7 +76,8 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
             state.user.history.let { historyList ->
                 historyItems = historyList
                         .filter { typedUserName -> typedUserName.startsWith(state.user.typedName) }
-                        .map { typedUserName -> HistoryItemViewModel(typedUserName, store) }
+                        .withIndex()
+                        .map { typedUserName -> HistoryItemViewModel(typedUserName.index, typedUserName.value, store) }
                         .toMutableList()
                 notifyPropertyChanged(BR.historyItems)
             }

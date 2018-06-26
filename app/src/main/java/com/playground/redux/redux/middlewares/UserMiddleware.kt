@@ -16,8 +16,7 @@ fun userMiddleware(@Named("USER_SEARCH") userRepository: Repository<UserSearch>)
     when (action) {
         is LoadPreviousSearchAction -> loadPreviousUserSearches(store, userRepository)
         is UserSelectionAction -> handleUserSelectionAction(store, userRepository, action)
-        is HistoryItemDeleteAction -> userRepository.remove(HistoryItemDeleteSpecification(action.userName))
-        is SwipeToDeleteAction -> handleSwipeToDeleteAction(store, action)
+        is PreviousSearchDeleteAction -> handlePreviousSearchDeleteAction(store, userRepository, action)
     }
     next.dispatch(action)
 }
@@ -45,7 +44,8 @@ fun handleUserSelectionAction(store: Store<AppState>, userRepository: Repository
     userRepository.add(UserSearch(selectionAction.selectedUser, System.currentTimeMillis()))
 }
 
-fun handleSwipeToDeleteAction(store: Store<AppState>, action: SwipeToDeleteAction) {
+fun handlePreviousSearchDeleteAction(store: Store<AppState>, userRepository: Repository<UserSearch>, action: PreviousSearchDeleteAction) {
     val userName = store.state.user.history[action.position]
-    store.dispatch(HistoryItemDeleteAction(userName))
+    userRepository.remove(HistoryItemDeleteSpecification(userName))
+    store.dispatch(HistoryItemDeleteAction(action.position))
 }
