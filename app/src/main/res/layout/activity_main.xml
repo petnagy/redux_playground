@@ -13,91 +13,85 @@
         <import type="android.view.View" />
     </data>
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout"
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".pages.userpage.MainActivity">
 
-        <android.support.constraint.ConstraintLayout
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".pages.userpage.MainActivity">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:indeterminate="true"
+            android:visibility="@{viewModel.loading ? View.VISIBLE : View.INVISIBLE}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ProgressBar
-                android:id="@+id/progress"
-                style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:indeterminate="true"
-                android:visibility="@{viewModel.loading ? View.VISIBLE : View.INVISIBLE}"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+        <EditText
+            android:id="@+id/editUser"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@={viewModel.user}"
+            app:layout_constraintEnd_toStartOf="@+id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/progress"
+            bind:addTextWatcher="@{viewModel.userWatcher}" />
 
-            <EditText
-                android:id="@+id/editUser"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="@={viewModel.user}"
-                app:layout_constraintEnd_toStartOf="@+id/guideline"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progress"
-                bind:addTextWatcher="@{viewModel.userWatcher}" />
+        <Button
+            android:id="@+id/btnOk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:onClick="@{viewModel::onOkButtonClicked}"
+            android:text="OK"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline"
+            app:layout_constraintTop_toBottomOf="@+id/progress" />
 
-            <Button
-                android:id="@+id/btnOk"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:onClick="@{viewModel::onOkButtonClicked}"
-                android:text="OK"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/guideline"
-                app:layout_constraintTop_toBottomOf="@+id/progress" />
+        <TextView
+            android:id="@+id/history_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Search history:"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editUser" />
 
-            <TextView
-                android:id="@+id/history_label"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
-                android:text="Search history:"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editUser" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/historyList"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/history_label"
+            bind:itemLayout="@{@layout/history_item}"
+            bind:source="@{viewModel.historyItems}"
+            bind:swipeToDelete="@{true}"
+            bind:swipeToDeleteCallback="@{viewModel.swipeToDeleteCallback}"
+            tools:listitem="@layout/history_item" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/historyList"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/history_label"
-                bind:itemLayout="@{@layout/history_item}"
-                bind:source="@{viewModel.historyItems}"
-                bind:swipeToDelete="@{true}"
-                bind:swipeToDeleteCallback="@{viewModel.swipeToDeleteCallback}"
-                tools:listitem="@layout/history_item" />
+        <android.support.constraint.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="288dp" />
 
-            <android.support.constraint.Guideline
-                android:id="@+id/guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_begin="288dp" />
-
-        </android.support.constraint.ConstraintLayout>
-    </android.support.design.widget.CoordinatorLayout>
+    </android.support.constraint.ConstraintLayout>
 </layout>
