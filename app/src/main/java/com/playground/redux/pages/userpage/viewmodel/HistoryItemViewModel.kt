@@ -4,13 +4,9 @@ import android.databinding.Bindable
 import android.view.View
 import com.playground.redux.common.recyclerview.ListItemViewModel
 import com.playground.redux.data.UserSearch
-import com.playground.redux.redux.actions.PreviousSearchDeleteAction
-import com.playground.redux.redux.actions.UserSelectionAction
-import com.playground.redux.redux.appstate.AppState
-import com.playground.redux.redux_impl.Store
 import timber.log.Timber
 
-class HistoryItemViewModel(private val userSearch: UserSearch, private val store: Store<AppState>): ListItemViewModel() {
+class HistoryItemViewModel(private val userSearch: UserSearch, private val callback: UserSearchCallback): ListItemViewModel() {
 
     override fun areItemsTheSame(newItem: ListItemViewModel): Boolean {
         return this.userSearch.userName == (newItem as HistoryItemViewModel).userSearch.userName
@@ -27,12 +23,12 @@ class HistoryItemViewModel(private val userSearch: UserSearch, private val store
 
     fun onHistoryItemClicked(view: View) {
         Timber.d("HistoryItemClicked: $userSearch.userName")
-        store.dispatch(UserSelectionAction(userSearch.userName))
+        callback.onUserSearchClicked(userSearch)
     }
 
     fun onHistoryItemDeleteClicked(view: View) {
         Timber.d("HistoryItemDeleteClicked: $userSearch.userName")
-        store.dispatch(PreviousSearchDeleteAction(userSearch))
+        callback.onUserSearchDelete(userSearch, view)
     }
 
 }

@@ -8,13 +8,14 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import com.android.databinding.library.baseAdapters.BR
+import com.playground.redux.data.UserSearch
 import com.playground.redux.redux.actions.*
 import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.redux_impl.Store
 import com.playground.redux.redux_impl.StoreSubscriber
 import timber.log.Timber
 
-class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscriber<AppState> {
+class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscriber<AppState>, UserSearchCallback {
 
     var user: String = store.state.user.selectedUserName
 
@@ -73,12 +74,21 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
         store.unsubscribe(this)
     }
 
+    override fun onUserSearchClicked(userSearch: UserSearch) {
+        store.dispatch(UserSelectionAction(userSearch.userName))
+    }
+
+    override fun onUserSearchDelete(userSearch: UserSearch, view: View) {
+        store.dispatch(PreviousSearchDeleteAction(userSearch))
+    }
+
     override fun newState(state: AppState) {
         state.apply {
             state.user.history.let { historyList ->
+                Timber.d("History item list size: ${historyList.size}")
                 historyItems = historyList
                         .filter { userSearch -> userSearch.userName.startsWith(state.user.typedName) }
-                        .map { userSearch -> HistoryItemViewModel(userSearch, store) }
+                        .map { userSearch -> HistoryItemViewModel(userSearch, this@UserViewModel) }
                         .toMutableList()
                 notifyPropertyChanged(BR.historyItems)
             }
