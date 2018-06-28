@@ -4,6 +4,7 @@ import android.arch.persistence.room.*
 import com.playground.redux.data.GitHubRepoEntity
 import com.playground.redux.data.UserSearch
 import io.reactivex.Maybe
+import retrofit2.http.DELETE
 
 
 @Database(entities = [(GitHubRepoEntity::class), (UserSearch::class)], version = 1)
@@ -39,8 +40,8 @@ interface UserSearchDao {
     @Update
     fun update(item: UserSearch)
 
-    @Query("DELETE FROM user_search WHERE userName = :userName")
-    fun delete(userName: String)
+    @Delete
+    fun delete(item: UserSearch)
 
     @Query("SELECT * FROM user_search ORDER BY timeStamp DESC")
     fun queryAll(): Maybe<List<UserSearch>>

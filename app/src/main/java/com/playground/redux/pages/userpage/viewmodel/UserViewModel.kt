@@ -57,7 +57,9 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
                 viewHolder?.let { swipedViewHolder ->
-                    store.dispatch(PreviousSearchDeleteAction(swipedViewHolder.adapterPosition))
+                    val userSearchList = store.state.user.history.filter { userSearch -> userSearch.userName.startsWith(store.state.user.typedName) }
+                    val deletingUserSearch = userSearchList[swipedViewHolder.adapterPosition]
+                    store.dispatch(PreviousSearchDeleteAction(deletingUserSearch))
                 }
             }
         }
@@ -75,9 +77,8 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
         state.apply {
             state.user.history.let { historyList ->
                 historyItems = historyList
-                        .filter { typedUserName -> typedUserName.startsWith(state.user.typedName) }
-                        .withIndex()
-                        .map { typedUserName -> HistoryItemViewModel(typedUserName.index, typedUserName.value, store) }
+                        .filter { userSearch -> userSearch.userName.startsWith(state.user.typedName) }
+                        .map { userSearch -> HistoryItemViewModel(userSearch, store) }
                         .toMutableList()
                 notifyPropertyChanged(BR.historyItems)
             }

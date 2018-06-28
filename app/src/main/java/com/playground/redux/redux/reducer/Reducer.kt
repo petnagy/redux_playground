@@ -1,5 +1,6 @@
 package com.playground.redux.redux.reducer
 
+import com.playground.redux.data.UserSearch
 import com.playground.redux.redux.actions.*
 import com.playground.redux.redux.appstate.*
 import com.playground.redux.redux_impl.Action
@@ -15,18 +16,12 @@ fun userReducer(action: Action, userState: UserState): UserState {
     var state = userState
     when(action) {
         is LoadPreviousSearchAction -> state = state.copy(loading = true)
-        is PreviousSearchListAction -> state = state.copy(loading = false, history = action.prevUserSearches.map { it.userName }.toList())
+        is PreviousSearchListAction -> state = state.copy(loading = false, history = action.prevUserSearches)
         is UserSelectionAction -> state = state.copy(selectedUserName = action.selectedUser)
         is UserTypeAction -> state = state.copy(typedName = action.typedText)
         is AddHistoryAction -> {
-            val historyList = state.history.toMutableList()
-            historyList.remove(action.selectedUser)
-            historyList.add(0, action.selectedUser)
-            state = state.copy(history = historyList.toList())
-        }
-        is HistoryItemDeleteAction -> {
-            val historyList = state.history.toMutableList()
-            historyList.removeAt(action.position)
+            val historyList = state.history.filter { it.userName != action.selectedUser }.toMutableList()
+            historyList.add(0, UserSearch(action.selectedUser, System.currentTimeMillis()))
             state = state.copy(history = historyList.toList())
         }
     }

@@ -44,10 +44,6 @@ class GitRepoRoomRepository(private val dao: GitRepoDao) : Repository<GitHubRepo
                 .subscribe()
     }
 
-    override fun remove(specification: Specification) {
-        //Do nothing
-    }
-
     override fun query(specification: Specification): Observable<List<GitHubRepoEntity>> {
         if (specification !is GitRepoSpecification) {
             throw IllegalStateException("Wrong specification!!!!")

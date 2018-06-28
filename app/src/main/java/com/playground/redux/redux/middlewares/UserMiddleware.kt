@@ -7,7 +7,6 @@ import com.playground.redux.redux_impl.Middleware
 import com.playground.redux.redux_impl.Store
 import com.playground.redux.repository.Repository
 import com.playground.redux.repository.usersearch.GetAllRecordsSpecification
-import com.playground.redux.repository.usersearch.HistoryItemDeleteSpecification
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Named
@@ -45,7 +44,6 @@ fun handleUserSelectionAction(store: Store<AppState>, userRepository: Repository
 }
 
 fun handlePreviousSearchDeleteAction(store: Store<AppState>, userRepository: Repository<UserSearch>, action: PreviousSearchDeleteAction) {
-    val userName = store.state.user.history[action.position]
-    userRepository.remove(HistoryItemDeleteSpecification(userName))
-    store.dispatch(HistoryItemDeleteAction(action.position))
+    userRepository.remove(action.userSearch)
+    store.dispatch(LoadPreviousSearchAction())
 }
