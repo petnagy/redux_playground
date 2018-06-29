@@ -6,6 +6,7 @@ import com.playground.redux.repository.Specification
 import com.playground.redux.room.UserSearchDao
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -32,11 +33,8 @@ class UserSearchRoomRepository(private val dao: UserSearchDao): Repository<UserS
                 .subscribe()
     }
 
-    override fun remove(item: UserSearch) {
-        Completable.fromAction { dao.delete(item) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+    override fun remove(item: UserSearch): Single<Int> {
+        return Single.fromCallable { dao.delete(item) }
     }
 
     override fun query(specification: Specification): Observable<List<UserSearch>> {

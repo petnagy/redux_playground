@@ -25,7 +25,7 @@ interface GitRepoDao {
     fun update(item: GitHubRepoEntity)
 
     @Delete
-    fun delete(item: GitHubRepoEntity)
+    fun delete(item: GitHubRepoEntity): Int
 
     @Query("SELECT * FROM favourite_git_repo WHERE userName = :userName")
     fun query(userName: String): Maybe<List<GitHubRepoEntity>>
@@ -41,7 +41,7 @@ interface UserSearchDao {
     fun update(item: UserSearch)
 
     @Delete
-    fun delete(item: UserSearch)
+    fun delete(item: UserSearch): Int
 
     @Query("SELECT * FROM user_search ORDER BY timeStamp DESC")
     fun queryAll(): Maybe<List<UserSearch>>

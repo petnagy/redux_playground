@@ -32,6 +32,9 @@ fun reposMiddleware(endpoint: GitHubEndpoint, @Named("GIT_REPO") repository: Rep
         }
         is RemoveFavouriteAction -> {
             repository.remove(GitHubRepoEntity(action.userName, action.repoName))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe()
             store.dispatch(ClearFavouriteAction(action.repoName))
         }
     }

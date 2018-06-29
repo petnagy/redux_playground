@@ -45,5 +45,7 @@ fun handleUserSelectionAction(store: Store<AppState>, userRepository: Repository
 
 fun handlePreviousSearchDeleteAction(store: Store<AppState>, userRepository: Repository<UserSearch>, action: PreviousSearchDeleteAction) {
     userRepository.remove(action.userSearch)
-    store.dispatch(LoadPreviousSearchAction())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { _ -> store.dispatch(LoadPreviousSearchAction()) }
 }
