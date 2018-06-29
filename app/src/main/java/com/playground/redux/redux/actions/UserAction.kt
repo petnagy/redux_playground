@@ -14,3 +14,5 @@ class AddHistoryAction(val selectedUser: String): Action
 class UserTypeAction(val typedText: String): Action
 
 class PreviousSearchDeleteAction(val userSearch: UserSearch): Action
+
+class UndoUserSearchDeleteAction(val userSearch: UserSearch): Action

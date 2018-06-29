@@ -2,20 +2,24 @@ package com.playground.redux.pages.userpage.viewmodel
 
 import android.databinding.BaseObservable
 import android.databinding.Bindable
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import com.android.databinding.library.baseAdapters.BR
+import com.playground.redux.BR
 import com.playground.redux.data.UserSearch
-import com.playground.redux.redux.actions.*
+import com.playground.redux.redux.actions.PreviousSearchDeleteAction
+import com.playground.redux.redux.actions.UndoUserSearchDeleteAction
+import com.playground.redux.redux.actions.UserSelectionAction
+import com.playground.redux.redux.actions.UserTypeAction
 import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.redux_impl.Store
 import com.playground.redux.redux_impl.StoreSubscriber
 import timber.log.Timber
 
-class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscriber<AppState>, UserSearchCallback {
+class UserViewModel(var store: Store<AppState>) : BaseObservable(), StoreSubscriber<AppState>, UserSearchCallback {
 
     var user: String = store.state.user.selectedUserName
 
@@ -34,7 +38,7 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
 
     @Bindable
     fun getUserWatcher(): TextWatcher {
-        return object: TextWatcher {
+        return object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
@@ -51,7 +55,7 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
 
     @Bindable
     fun getSwipeToDeleteCallback(): ItemTouchHelper.SimpleCallback {
-        return object: ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+        return object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
                 return false
             }
@@ -61,9 +65,15 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
                     val userSearchList = store.state.user.history.filter { userSearch -> userSearch.userName.startsWith(store.state.user.typedName) }
                     val deletingUserSearch = userSearchList[swipedViewHolder.adapterPosition]
                     store.dispatch(PreviousSearchDeleteAction(deletingUserSearch))
+                    showUndoSnackbar(viewHolder.itemView, deletingUserSearch)
                 }
             }
         }
+    }
+
+    fun showUndoSnackbar(view: View, userSearch: UserSearch) {
+        Snackbar.make(view, "User name will be delete: ${userSearch.userName}", Snackbar.LENGTH_LONG)
+                .setAction("UNDO") { store.dispatch(UndoUserSearchDeleteAction(userSearch)) }.show()
     }
 
     fun onStart() {
@@ -80,6 +90,7 @@ class UserViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscrib
 
     override fun onUserSearchDelete(userSearch: UserSearch, view: View) {
         store.dispatch(PreviousSearchDeleteAction(userSearch))
+        showUndoSnackbar(view, userSearch)
     }
 
     override fun newState(state: AppState) {

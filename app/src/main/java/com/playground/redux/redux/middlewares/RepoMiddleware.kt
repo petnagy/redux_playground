@@ -28,14 +28,17 @@ fun reposMiddleware(endpoint: GitHubEndpoint, @Named("GIT_REPO") repository: Rep
         is LoadFavouriteInfoFromDbAction -> handleLoadFromDatabase(store, repository, action.userName)
         is SaveFavouriteAction -> {
             repository.add(GitHubRepoEntity(action.userName, action.repoName))
-            store.dispatch(SetFavouriteAction(action.repoName))
-        }
-        is RemoveFavouriteAction -> {
-            repository.remove(GitHubRepoEntity(action.userName, action.repoName))
+                    .doOnComplete { store.dispatch(SetFavouriteAction(action.repoName)) }
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe()
-            store.dispatch(ClearFavouriteAction(action.repoName))
+        }
+        is RemoveFavouriteAction -> {
+            repository.remove(GitHubRepoEntity(action.userName, action.repoName))
+                    .doOnComplete { store.dispatch(ClearFavouriteAction(action.repoName)) }
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe()
         }
     }
     next.dispatch(action)

@@ -16,6 +16,7 @@ fun userMiddleware(@Named("USER_SEARCH") userRepository: Repository<UserSearch>)
         is LoadPreviousSearchAction -> loadPreviousUserSearches(store, userRepository)
         is UserSelectionAction -> handleUserSelectionAction(store, userRepository, action)
         is PreviousSearchDeleteAction -> handlePreviousSearchDeleteAction(store, userRepository, action)
+        is UndoUserSearchDeleteAction -> handleUndoDeleteAction(store, userRepository, action)
     }
     next.dispatch(action)
 }
@@ -39,13 +40,25 @@ fun handleUserSearchesError(store: Store<AppState>) {
 }
 
 fun handleUserSelectionAction(store: Store<AppState>, userRepository: Repository<UserSearch>, selectionAction: UserSelectionAction) {
-    store.dispatch(AddHistoryAction(selectionAction.selectedUser))
     userRepository.add(UserSearch(selectionAction.selectedUser, System.currentTimeMillis()))
+            .doOnComplete { store.dispatch(AddHistoryAction(selectionAction.selectedUser)) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
 }
 
 fun handlePreviousSearchDeleteAction(store: Store<AppState>, userRepository: Repository<UserSearch>, action: PreviousSearchDeleteAction) {
     userRepository.remove(action.userSearch)
+            .doOnComplete { store.dispatch(LoadPreviousSearchAction()) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { _ -> store.dispatch(LoadPreviousSearchAction()) }
+            .subscribe()
+}
+
+fun handleUndoDeleteAction(store: Store<AppState>, userRepository: Repository<UserSearch>, action: UndoUserSearchDeleteAction) {
+    userRepository.add(action.userSearch)
+            .doOnComplete { store.dispatch(LoadPreviousSearchAction()) }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe()
 }

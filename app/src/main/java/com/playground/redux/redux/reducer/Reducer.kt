@@ -39,7 +39,7 @@ fun navigationReducer(action: Action, pageState: PageState): PageState {
 fun repoReducer(action: Action, repoState: RepoState): RepoState {
     var state = repoState
     when(action) {
-        is LoadReposAction -> state = state.copy(loading = true)
+        is LoadReposAction -> state = state.copy(loading = true, repoList = emptyList())
         is GitHubReposSuccessAction -> state = state.copy(loading = false, repoList = action.repoList)
         is GitHubReposFailedAction -> state = state.copy(loading = false, repoList = emptyList())
         is ClearRepoItemsAction -> state = state.copy(repoList = emptyList())
@@ -63,7 +63,7 @@ fun repoReducer(action: Action, repoState: RepoState): RepoState {
 fun commitsReducer(action: Action, commits: CommitState): CommitState {
     var state = commits
     when(action) {
-        is LoadCommitsAction -> state = state.copy(loading = true)
+        is LoadCommitsAction -> state = state.copy(loading = true, commitList = emptyList())
         is CommitsLoadedFailedAction -> state = state.copy(loading = false, commitList = emptyList())
         is CommitsLoadedSuccessAction -> state = state.copy(loading = false, commitList = action.commits)
         is ClearCommitListAction -> state = state.copy(commitList = emptyList())

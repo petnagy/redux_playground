@@ -1,17 +1,17 @@
 package com.playground.redux.repository
 
+import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.Single
 
 interface Repository<T> {
 
-    fun add(item: T)
+    fun add(item: T): Completable
 
     fun add(items: Iterable<T>)
 
     fun update(item: T)
 
-    fun remove(item: T): Single<Int>
+    fun remove(item: T): Completable
 
     fun query(specification: Specification): Observable<List<T>>
 }

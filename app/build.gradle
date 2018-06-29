@@ -26,8 +26,8 @@ android {
 
 ext {
     daggerVersion = '2.16'
-    timberVersion = '4.6.0'
-    roomVersion = '1.1.0'
+    timberVersion = '4.6.1'
+    roomVersion = '1.1.1'
 }
 
 dependencies {
@@ -56,8 +56,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
 
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.10'
 
     // Room
     implementation "android.arch.persistence.room:runtime:$roomVersion"
