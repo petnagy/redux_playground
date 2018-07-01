@@ -29,6 +29,7 @@ class Store<State>(reducer: Reducer<State>, middlewareList: List<Middleware<Stat
 
     init {
         dispatchers.add(object: DispatchFunction {
+            @Synchronized
             override fun dispatch(action: Action) {
                 val newState = reducer(action, state)
                 if (state != newState) {
