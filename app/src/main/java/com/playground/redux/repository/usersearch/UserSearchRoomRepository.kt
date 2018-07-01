@@ -15,18 +15,12 @@ class UserSearchRoomRepository(private val dao: UserSearchDao) : Repository<User
         return Completable.fromAction { dao.insert(item) }
     }
 
-    override fun add(items: Iterable<UserSearch>) {
-        Completable.fromAction { items.forEach { item -> dao.insert(item) } }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+    override fun add(items: Iterable<UserSearch>): Completable {
+        return Completable.fromAction { items.forEach { item -> dao.insert(item) } }
     }
 
-    override fun update(item: UserSearch) {
-        Completable.fromAction { dao.update(item) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+    override fun update(item: UserSearch): Completable {
+        return Completable.fromAction { dao.update(item) }
     }
 
     override fun remove(item: UserSearch): Completable {

@@ -6,8 +6,6 @@ import com.playground.redux.repository.Specification
 import com.playground.redux.room.GitRepoDao
 import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 
 class GitRepoRoomRepository(private val dao: GitRepoDao) : Repository<GitHubRepoEntity> {
@@ -16,20 +14,12 @@ class GitRepoRoomRepository(private val dao: GitRepoDao) : Repository<GitHubRepo
         return Completable.fromAction { dao.insert(item) }
     }
 
-    override fun add(items: Iterable<GitHubRepoEntity>) {
-        Completable.fromAction {
-            items.forEach { item -> dao.insert(item) }
-        }.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+    override fun add(items: Iterable<GitHubRepoEntity>): Completable {
+        return Completable.fromAction { items.forEach { item -> dao.insert(item) } }
     }
 
-    override fun update(item: GitHubRepoEntity) {
-        Completable.fromAction {
-            dao.update(item)
-        }.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+    override fun update(item: GitHubRepoEntity): Completable {
+        return Completable.fromAction { dao.update(item) }
     }
 
     override fun remove(item: GitHubRepoEntity): Completable {
