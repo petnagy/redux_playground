@@ -18,7 +18,7 @@ interface StoreSubscriber<State> {
 
 class Store<State>(reducer: Reducer<State>, middlewareList: List<Middleware<State>>, initState: State) {
 
-    private val dispatchers: MutableList<DispatchFunction> = arrayListOf()
+    private val dispatchFunctions: MutableList<DispatchFunction> = arrayListOf()
     var state: State = initState
     private set(value) {
             field = value
@@ -28,7 +28,7 @@ class Store<State>(reducer: Reducer<State>, middlewareList: List<Middleware<Stat
     private var subscriptions: MutableList<StoreSubscriber<State>> = CopyOnWriteArrayList()
 
     init {
-        dispatchers.add(object: DispatchFunction {
+        dispatchFunctions.add(object: DispatchFunction {
             @Synchronized
             override fun dispatch(action: Action) {
                 val newState = reducer(action, state)
@@ -38,8 +38,8 @@ class Store<State>(reducer: Reducer<State>, middlewareList: List<Middleware<Stat
             }
         })
         middlewareList.reversed().map { middleware ->
-            val next = dispatchers.first()
-            dispatchers.add(0, object: DispatchFunction {
+            val next = dispatchFunctions.first()
+            dispatchFunctions.add(0, object: DispatchFunction {
                 override fun dispatch(action: Action) {
                     middleware(this@Store, action, next)
                 }
@@ -48,7 +48,7 @@ class Store<State>(reducer: Reducer<State>, middlewareList: List<Middleware<Stat
     }
 
     fun dispatch(action: Action) {
-        dispatchers.first().dispatch(action)
+        dispatchFunctions.first().dispatch(action)
     }
 
     fun subscribe(subscriber: StoreSubscriber<State>) {
