@@ -26,7 +26,7 @@ android {
 
 ext {
     daggerVersion = '2.16'
-    timberVersion = '4.6.1'
+    timberVersion = '4.7.1'
     roomVersion = '1.1.1'
 }
 
