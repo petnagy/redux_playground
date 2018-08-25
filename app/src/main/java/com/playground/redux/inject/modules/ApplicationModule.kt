@@ -5,14 +5,14 @@ import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.playground.redux.ProjectApplication
-import com.playground.redux.redux.appstate.*
 import com.playground.redux.data.GitHubRepoEntity
 import com.playground.redux.data.UserSearch
 import com.playground.redux.inject.AppContext
-import com.playground.redux.redux.middlewares.*
 import com.playground.redux.navigation.Navigator
 import com.playground.redux.network.GitHubEndpoint
-import com.playground.redux.redux.reducer.appReducer
+import com.playground.redux.redux.appstate.*
+import com.playground.redux.redux.middlewares.*
+import com.playground.redux.redux.reducer.AppReducer
 import com.playground.redux.redux_impl.Store
 import com.playground.redux.repository.Repository
 import com.playground.redux.repository.gitrepo.GitRepoRoomRepository
@@ -52,12 +52,12 @@ class  ApplicationModule {
     fun provideStore(navigator: Navigator, endpoint: GitHubEndpoint,
                      @Named("GIT_REPO") githubRepo: Repository<GitHubRepoEntity>,
                      @Named("USER_SEARCH") userSearchRepo: Repository<UserSearch>): Store<AppState> {
-        return Store(reducer = ::appReducer, initState = AppState(UserState(), PageState(), RepoState(), CommitState()),
-                middlewareList = listOf(loggingMiddleware,
-                        userMiddleware(userSearchRepo),
-                        navigationMiddleware(navigator),
-                        reposMiddleware(endpoint, githubRepo),
-                        commitsMiddleware(endpoint, githubRepo)))
+        return Store(reducer = AppReducer(), initState = AppState(UserState(), PageState(), RepoState(), CommitState()),
+                middlewareList = listOf(LoggingMiddleware(),
+                        UserMiddleware(userSearchRepo),
+                        NavigationMiddleware(navigator),
+                        RepoMiddleware(endpoint, githubRepo),
+                        CommitMiddleware(endpoint)))
     }
 
     @Provides

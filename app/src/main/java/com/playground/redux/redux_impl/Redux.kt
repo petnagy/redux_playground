@@ -4,9 +4,13 @@ import java.util.concurrent.CopyOnWriteArrayList
 
 interface Action
 
-typealias Reducer<State> = (action: Action, state: State) -> State
+interface Reducer<State> {
+    fun invoke(action: Action, state: State): State
+}
 
-typealias Middleware<State> = (store: Store<State>, action: Action, next: DispatchFunction) -> Unit
+interface Middleware<State> {
+    fun invoke(store: Store<State>, action: Action, next: DispatchFunction)
+}
 
 interface DispatchFunction {
     fun dispatch(action: Action)
@@ -31,7 +35,7 @@ class Store<State>(reducer: Reducer<State>, middlewareList: List<Middleware<Stat
         dispatchFunctions.add(object: DispatchFunction {
             @Synchronized
             override fun dispatch(action: Action) {
-                val newState = reducer(action, state)
+                val newState = reducer.invoke(action, state)
                 if (state != newState) {
                     state = newState
                 }
@@ -41,7 +45,7 @@ class Store<State>(reducer: Reducer<State>, middlewareList: List<Middleware<Stat
             val next = dispatchFunctions.first()
             dispatchFunctions.add(0, object: DispatchFunction {
                 override fun dispatch(action: Action) {
-                    middleware(this@Store, action, next)
+                    middleware.invoke(this@Store, action, next)
                 }
             })
         }
