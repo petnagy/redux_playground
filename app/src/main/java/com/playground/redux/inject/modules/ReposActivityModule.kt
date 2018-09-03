@@ -1,8 +1,8 @@
 package com.playground.redux.inject.modules
 
-import com.playground.redux.redux.appstate.AppState
+import com.petnagy.koredux.Store
 import com.playground.redux.pages.repospage.viewmodel.ReposViewModel
-import com.playground.redux.redux_impl.Store
+import com.playground.redux.redux.appstate.AppState
 import dagger.Module
 import dagger.Provides
 

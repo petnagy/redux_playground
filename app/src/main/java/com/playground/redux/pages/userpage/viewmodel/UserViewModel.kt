@@ -8,6 +8,8 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import com.petnagy.koredux.Store
+import com.petnagy.koredux.StoreSubscriber
 import com.playground.redux.BR
 import com.playground.redux.data.UserSearch
 import com.playground.redux.redux.actions.PreviousSearchDeleteAction
@@ -15,8 +17,6 @@ import com.playground.redux.redux.actions.UndoUserSearchDeleteAction
 import com.playground.redux.redux.actions.UserSelectionAction
 import com.playground.redux.redux.actions.UserTypeAction
 import com.playground.redux.redux.appstate.AppState
-import com.playground.redux.redux_impl.Store
-import com.playground.redux.redux_impl.StoreSubscriber
 import timber.log.Timber
 
 class UserViewModel(var store: Store<AppState>) : BaseObservable(), StoreSubscriber<AppState>, UserSearchCallback {

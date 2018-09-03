@@ -1,8 +1,8 @@
 package com.playground.redux.redux.actions
 
+import com.petnagy.koredux.Action
 import com.playground.redux.data.GitHubRepo
 import com.playground.redux.data.GitHubRepoEntity
-import com.playground.redux.redux_impl.Action
 
 class LoadReposAction(val userName: String): Action
 

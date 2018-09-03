@@ -1,10 +1,10 @@
 package com.playground.redux.redux.reducer
 
+import com.petnagy.koredux.Action
+import com.petnagy.koredux.Reducer
 import com.playground.redux.data.UserSearch
 import com.playground.redux.redux.actions.*
 import com.playground.redux.redux.appstate.*
-import com.playground.redux.redux_impl.Action
-import com.playground.redux.redux_impl.Reducer
 
 class AppReducer: Reducer<AppState> {
 

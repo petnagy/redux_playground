@@ -2,13 +2,13 @@ package com.playground.redux.pages.repospage.viewmodel
 
 import android.databinding.Bindable
 import android.view.View
+import com.petnagy.koredux.Store
+import com.playground.redux.common.recyclerview.ListItemViewModel
+import com.playground.redux.data.GitHubRepo
 import com.playground.redux.redux.actions.RemoveFavouriteAction
 import com.playground.redux.redux.actions.RepoSelectedAction
 import com.playground.redux.redux.actions.SaveFavouriteAction
 import com.playground.redux.redux.appstate.AppState
-import com.playground.redux.common.recyclerview.ListItemViewModel
-import com.playground.redux.data.GitHubRepo
-import com.playground.redux.redux_impl.Store
 
 class RepoItemViewModel(private val repo: GitHubRepo, val store: Store<AppState>): ListItemViewModel() {
 

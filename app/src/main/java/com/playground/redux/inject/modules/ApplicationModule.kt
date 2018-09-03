@@ -4,6 +4,7 @@ import android.arch.persistence.room.Room
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.petnagy.koredux.Store
 import com.playground.redux.ProjectApplication
 import com.playground.redux.data.GitHubRepoEntity
 import com.playground.redux.data.UserSearch
@@ -13,7 +14,6 @@ import com.playground.redux.network.GitHubEndpoint
 import com.playground.redux.redux.appstate.*
 import com.playground.redux.redux.middlewares.*
 import com.playground.redux.redux.reducer.AppReducer
-import com.playground.redux.redux_impl.Store
 import com.playground.redux.repository.Repository
 import com.playground.redux.repository.gitrepo.GitRepoRoomRepository
 import com.playground.redux.repository.usersearch.UserSearchRoomRepository

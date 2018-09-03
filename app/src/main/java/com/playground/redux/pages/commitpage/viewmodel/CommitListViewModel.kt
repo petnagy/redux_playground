@@ -3,9 +3,9 @@ package com.playground.redux.pages.commitpage.viewmodel
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import com.android.databinding.library.baseAdapters.BR
+import com.petnagy.koredux.Store
+import com.petnagy.koredux.StoreSubscriber
 import com.playground.redux.redux.appstate.AppState
-import com.playground.redux.redux_impl.Store
-import com.playground.redux.redux_impl.StoreSubscriber
 
 class CommitListViewModel(val store: Store<AppState>): BaseObservable(), StoreSubscriber<AppState> {
 

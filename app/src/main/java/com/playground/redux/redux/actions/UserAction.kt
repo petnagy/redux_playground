@@ -1,7 +1,7 @@
 package com.playground.redux.redux.actions
 
+import com.petnagy.koredux.Action
 import com.playground.redux.data.UserSearch
-import com.playground.redux.redux_impl.Action
 
 class LoadPreviousSearchAction: Action
 

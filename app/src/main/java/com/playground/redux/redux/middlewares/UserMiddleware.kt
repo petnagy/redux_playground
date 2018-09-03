@@ -1,17 +1,16 @@
 package com.playground.redux.redux.middlewares
 
+import com.petnagy.koredux.Action
+import com.petnagy.koredux.DispatchFunction
+import com.petnagy.koredux.Middleware
+import com.petnagy.koredux.Store
 import com.playground.redux.data.UserSearch
 import com.playground.redux.redux.actions.*
 import com.playground.redux.redux.appstate.AppState
-import com.playground.redux.redux_impl.Action
-import com.playground.redux.redux_impl.DispatchFunction
-import com.playground.redux.redux_impl.Middleware
-import com.playground.redux.redux_impl.Store
 import com.playground.redux.repository.Repository
 import com.playground.redux.repository.usersearch.GetAllRecordsSpecification
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import javax.inject.Named
 
 class UserMiddleware(private val userRepository: Repository<UserSearch>): Middleware<AppState> {
     override fun invoke(store: Store<AppState>, action: Action, next: DispatchFunction) {

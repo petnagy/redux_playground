@@ -1,10 +1,10 @@
 package com.playground.redux.inject.components
 
+import com.petnagy.koredux.Store
 import com.playground.redux.ProjectApplication
-import com.playground.redux.redux.appstate.AppState
 import com.playground.redux.inject.modules.ApplicationModule
 import com.playground.redux.inject.modules.DaggerActivityModule
-import com.playground.redux.redux_impl.Store
+import com.playground.redux.redux.appstate.AppState
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule
