@@ -19,7 +19,6 @@ import io.reactivex.Single
 import org.junit.Assert
 import org.junit.ClassRule
 import org.junit.Test
-import org.mockito.ArgumentCaptor
 import org.mockito.Mockito
 import java.io.IOException
 
