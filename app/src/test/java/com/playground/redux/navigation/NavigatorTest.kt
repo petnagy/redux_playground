@@ -3,8 +3,6 @@ package com.playground.redux.navigation
 import org.junit.Assert
 import org.junit.Test
 
-import org.junit.Assert.*
-
 class NavigatorTest {
 
     @Test

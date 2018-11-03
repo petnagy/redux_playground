@@ -6,8 +6,6 @@ import com.playground.redux.repository.Specification
 import com.playground.redux.room.UserSearchDao
 import io.reactivex.Completable
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 
 class UserSearchRoomRepository(private val dao: UserSearchDao) : Repository<UserSearch> {
 

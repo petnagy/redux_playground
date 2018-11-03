@@ -40,7 +40,7 @@ class CommitMiddlewareTest {
     @Test
     fun testCommitMiddlewareWithCommonAction_CallNextDispatchFunction() {
         //GIVEN
-        var action = TestAction()
+        val action = TestAction()
         val mockGitHubEndpoint: GitHubEndpoint = mock()
         commitMiddleware = CommitMiddleware(mockGitHubEndpoint)
 

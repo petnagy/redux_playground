@@ -13,7 +13,7 @@ class LoggingMiddlewareTest {
     private lateinit var underTest: LoggingMiddleware
 
     @Test
-    fun testLoggignMidleware_CallNextDispatchFunction() {
+    fun testLoggingMiddleware_CallNextDispatchFunction() {
         //GIVEN
         underTest = LoggingMiddleware()
 

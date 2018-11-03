@@ -11,7 +11,8 @@ class SpaceItemDecorator(private val space: Int) : RecyclerView.ItemDecoration()
         outRect.top = space
         outRect.left = space
         outRect.right = space
-        if (parent.getChildAdapterPosition(view) != parent.adapter.itemCount - 1) {
+        val itemCount = parent.adapter?.itemCount ?: 0
+        if (parent.getChildAdapterPosition(view) != itemCount - 1) {
             outRect.bottom = space
         }
     }

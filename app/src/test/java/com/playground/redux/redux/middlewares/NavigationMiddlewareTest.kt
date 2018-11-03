@@ -21,7 +21,7 @@ class NavigationMiddlewareTest {
     private lateinit var navigationMiddleware: NavigationMiddleware
 
     @Test
-    fun testUserSelectionAction_SendNextPageNAvigation() {
+    fun testUserSelectionAction_SendNextPageNavigation() {
         //GIVEN
         val mockNavigator: Navigator = mock()
         navigationMiddleware = NavigationMiddleware(mockNavigator)
@@ -42,7 +42,7 @@ class NavigationMiddlewareTest {
     }
 
     @Test
-    fun testRepoSelectedAction_SendNextPageNAvigation() {
+    fun testRepoSelectedAction_SendNextPageNavigation() {
         //GIVEN
         val mockNavigator: Navigator = mock()
         navigationMiddleware = NavigationMiddleware(mockNavigator)

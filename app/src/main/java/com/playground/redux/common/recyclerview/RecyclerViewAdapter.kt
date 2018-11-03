@@ -15,7 +15,7 @@ class RecyclerViewAdapter : RecyclerView.Adapter<BindingViewHolder>() {
             oldItems = ArrayList(items)
             this.items.clear()
             this.items.addAll(value)
-            var diffResult = DiffUtil.calculateDiff(ListItemViewModelDiffCallback(oldItems, items))
+            val diffResult = DiffUtil.calculateDiff(ListItemViewModelDiffCallback(oldItems, items))
             diffResult.dispatchUpdatesTo(this)
         }
 
@@ -24,7 +24,7 @@ class RecyclerViewAdapter : RecyclerView.Adapter<BindingViewHolder>() {
     private var oldItems: ArrayList<ListItemViewModel> = ArrayList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BindingViewHolder {
-        var dataBinding: ViewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), itemLayout, parent, false)
+        val dataBinding: ViewDataBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), itemLayout, parent, false)
         return BindingViewHolder(dataBinding)
     }
 
