@@ -56,17 +56,15 @@ class UserViewModel(var store: Store<AppState>) : BaseObservable(), StoreSubscri
     @Bindable
     fun getSwipeToDeleteCallback(): ItemTouchHelper.SimpleCallback {
         return object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
-            override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?): Boolean {
+            override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
                 return false
             }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder?, direction: Int) {
-                viewHolder?.let { swipedViewHolder ->
-                    val userSearchList = store.state.user.history.filter { userSearch -> userSearch.userName.startsWith(store.state.user.typedName) }
-                    val deletingUserSearch = userSearchList[swipedViewHolder.adapterPosition]
-                    store.dispatch(PreviousSearchDeleteAction(deletingUserSearch))
-                    showUndoSnackbar(viewHolder.itemView, deletingUserSearch)
-                }
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val userSearchList = store.state.user.history.filter { userSearch -> userSearch.userName.startsWith(store.state.user.typedName) }
+                val deletingUserSearch = userSearchList[viewHolder.adapterPosition]
+                store.dispatch(PreviousSearchDeleteAction(deletingUserSearch))
+                showUndoSnackbar(viewHolder.itemView, deletingUserSearch)
             }
         }
     }
@@ -98,6 +96,7 @@ class UserViewModel(var store: Store<AppState>) : BaseObservable(), StoreSubscri
             state.user.history.let { historyList ->
                 Timber.d("History item list size: ${historyList.size}")
                 historyItems = historyList
+                        .asSequence()
                         .filter { userSearch -> userSearch.userName.startsWith(state.user.typedName) }
                         .map { userSearch -> HistoryItemViewModel(userSearch, this@UserViewModel) }
                         .toMutableList()
