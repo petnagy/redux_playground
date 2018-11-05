@@ -21,7 +21,7 @@ import timber.log.Timber
 
 class UserViewModel(var store: Store<AppState>) : BaseObservable(), StoreSubscriber<AppState>, UserSearchCallback {
 
-    var user: String = store.state.user.selectedUserName
+    var user: String = store.state.user.typedName
 
     @Bindable
     var loading: Boolean = false
