@@ -1,5 +1,6 @@
 package com.playground.redux.redux.middlewares
 
+import android.annotation.SuppressLint
 import com.petnagy.koredux.Action
 import com.petnagy.koredux.DispatchFunction
 import com.petnagy.koredux.Middleware
@@ -18,17 +19,20 @@ class CommitMiddleware(private val endpoint: GitHubEndpoint): Middleware<AppStat
 
     override fun invoke(store: Store<AppState>, action: Action, next: DispatchFunction) {
         when (action) {
-            is LoadCommitsAction -> {
-                endpoint.getCommits(action.userName, action.repoName)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                { result -> handleGitHubCommitsResult(store, result) },
-                                { error -> handleGitHubCommitsError(store, error.message) }
-                        )
-            }
+            is LoadCommitsAction -> loadCommits(action, store)
         }
         next.dispatch(action)
+    }
+
+    @SuppressLint("CheckResult")
+    private fun loadCommits(action: LoadCommitsAction, store: Store<AppState>) {
+        endpoint.getCommits(action.userName, action.repoName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { result -> handleGitHubCommitsResult(store, result) },
+                        { error -> handleGitHubCommitsError(store, error.message) }
+                )
     }
 
     private fun handleGitHubCommitsResult(store: Store<AppState>, result: List<GitCommit>) {

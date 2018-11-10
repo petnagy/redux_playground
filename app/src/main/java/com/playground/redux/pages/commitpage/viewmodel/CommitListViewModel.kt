@@ -30,9 +30,9 @@ class CommitListViewModel(val store: Store<AppState>): BaseObservable(), StoreSu
     }
 
     override fun newState(state: AppState) {
-        state.apply {
-            this@CommitListViewModel.loading = state.commits.loading
-            commitItems = state.commits.commitList.map { commit -> CommitItemViewModel(commit) }
+        state.commits.apply {
+            this@CommitListViewModel.loading = this.loading
+            commitItems = this.commitList.map { commit -> CommitItemViewModel(commit) }
             notifyPropertyChanged(BR.loading)
             notifyPropertyChanged(BR.commitItems)
         }

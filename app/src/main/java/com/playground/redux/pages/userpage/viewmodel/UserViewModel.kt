@@ -92,12 +92,12 @@ class UserViewModel(var store: Store<AppState>) : BaseObservable(), StoreSubscri
     }
 
     override fun newState(state: AppState) {
-        state.apply {
-            state.user.history.let { historyList ->
+        state.user.apply {
+            this.history.let { historyList ->
                 Timber.d("History item list size: ${historyList.size}")
                 historyItems = historyList
                         .asSequence()
-                        .filter { userSearch -> userSearch.userName.startsWith(state.user.typedName) }
+                        .filter { userSearch -> userSearch.userName.startsWith(this.typedName) }
                         .map { userSearch -> HistoryItemViewModel(userSearch, this@UserViewModel) }
                         .toMutableList()
                 notifyPropertyChanged(BR.historyItems)

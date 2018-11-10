@@ -1,5 +1,6 @@
 package com.playground.redux.redux.middlewares
 
+import android.annotation.SuppressLint
 import com.petnagy.koredux.Action
 import com.petnagy.koredux.DispatchFunction
 import com.petnagy.koredux.Middleware
@@ -20,34 +21,42 @@ class RepoMiddleware(private val endpoint: GitHubEndpoint,
 
     override fun invoke(store: Store<AppState>, action: Action, next: DispatchFunction) {
         when (action) {
-            is LoadReposAction -> {
-                endpoint.getRepos(action.userName)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(
-                                { result -> handleGitHubRepoResult(store, result) },
-                                { error -> handleGitHubRepoError(store, error.message) }
-                        )
-            }
+            is LoadReposAction -> loadRepos(action, store)
             is LoadFavouriteInfoFromDbAction -> handleLoadFromDatabase(store, repository, action.userName)
-            is SaveFavouriteAction -> {
-                repository.add(GitHubRepoEntity(action.userName, action.repoName))
-                        .doOnComplete { store.dispatch(SetFavouriteAction(action.repoName)) }
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe()
-            }
-            is RemoveFavouriteAction -> {
-                repository.remove(GitHubRepoEntity(action.userName, action.repoName))
-                        .doOnComplete { store.dispatch(ClearFavouriteAction(action.repoName)) }
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe()
-            }
+            is SaveFavouriteAction -> saveFavourite(action, store)
+            is RemoveFavouriteAction -> removeFavourite(action, store)
         }
         next.dispatch(action)
     }
 
+    private fun removeFavourite(action: RemoveFavouriteAction, store: Store<AppState>) {
+        repository.remove(GitHubRepoEntity(action.userName, action.repoName))
+                .doOnComplete { store.dispatch(ClearFavouriteAction(action.repoName)) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+    }
+
+    private fun saveFavourite(action: SaveFavouriteAction, store: Store<AppState>) {
+        repository.add(GitHubRepoEntity(action.userName, action.repoName))
+                .doOnComplete { store.dispatch(SetFavouriteAction(action.repoName)) }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
+    }
+
+    @SuppressLint("CheckResult")
+    private fun loadRepos(action: LoadReposAction, store: Store<AppState>) {
+        endpoint.getRepos(action.userName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { result -> handleGitHubRepoResult(store, result) },
+                        { error -> handleGitHubRepoError(store, error.message) }
+                )
+    }
+
+    @SuppressLint("CheckResult")
     private fun handleLoadFromDatabase(store: Store<AppState>, repository: Repository<GitHubRepoEntity>, userName: String) {
         repository.query(GitRepoSpecification(userName)).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

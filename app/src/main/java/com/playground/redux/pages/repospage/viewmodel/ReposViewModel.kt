@@ -24,9 +24,9 @@ class ReposViewModel(var store: Store<AppState>): BaseObservable(), StoreSubscri
     }
 
     override fun newState(state: AppState) {
-        state.apply {
-            this@ReposViewModel.loading = state.repos.loading
-            repoItems = state.repos.repoList.map { repo -> RepoItemViewModel(repo, store) }
+        state.repos.apply {
+            this@ReposViewModel.loading = this.loading
+            repoItems = this.repoList.map { repo -> RepoItemViewModel(repo, store) }
             notifyPropertyChanged(BR.loading)
             notifyPropertyChanged(BR.repoItems)
         }

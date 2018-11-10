@@ -1,5 +1,6 @@
 package com.playground.redux.redux.middlewares
 
+import android.annotation.SuppressLint
 import com.petnagy.koredux.Action
 import com.petnagy.koredux.DispatchFunction
 import com.petnagy.koredux.Middleware
@@ -11,6 +12,7 @@ import com.playground.redux.repository.Repository
 import com.playground.redux.repository.usersearch.GetAllRecordsSpecification
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 
 class UserMiddleware(private val userRepository: Repository<UserSearch>): Middleware<AppState> {
     override fun invoke(store: Store<AppState>, action: Action, next: DispatchFunction) {
@@ -23,13 +25,14 @@ class UserMiddleware(private val userRepository: Repository<UserSearch>): Middle
         next.dispatch(action)
     }
 
+    @SuppressLint("CheckResult")
     private fun loadPreviousUserSearches(store: Store<AppState>, userRepository: Repository<UserSearch>) {
         userRepository.query(GetAllRecordsSpecification())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { result -> handleUserSearchesFromDb(store, result) },
-                        { error -> handleUserSearchesError(store) }
+                        { error -> handleUserSearchesError(store, error.message) }
                 )
     }
 
@@ -37,7 +40,8 @@ class UserMiddleware(private val userRepository: Repository<UserSearch>): Middle
         store.dispatch(PreviousSearchListAction(result))
     }
 
-    private fun handleUserSearchesError(store: Store<AppState>) {
+    private fun handleUserSearchesError(store: Store<AppState>, message: String?) {
+        Timber.e(message)
         //TODO error handling
     }
 
