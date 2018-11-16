@@ -1,19 +1,18 @@
 package com.playground.redux.pages.commitpage.viewmodel
 
+import android.arch.lifecycle.MutableLiveData
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import com.android.databinding.library.baseAdapters.BR
 import com.petnagy.koredux.Store
 import com.petnagy.koredux.StoreSubscriber
+import com.playground.redux.extensions.default
 import com.playground.redux.redux.appstate.AppState
 
 class CommitListViewModel(val store: Store<AppState>): BaseObservable(), StoreSubscriber<AppState> {
 
-    @Bindable
-    var commitItems: List<CommitItemViewModel> = emptyList()
-
-    @Bindable
-    var loading: Boolean = false
+    val commitItems = MutableLiveData<List<CommitItemViewModel>>().default(emptyList())
+    var loading = MutableLiveData<Boolean>().default(false)
 
     @Bindable
     fun getUser(): String = store.state.user.selectedUserName
@@ -31,10 +30,8 @@ class CommitListViewModel(val store: Store<AppState>): BaseObservable(), StoreSu
 
     override fun newState(state: AppState) {
         state.commits.apply {
-            this@CommitListViewModel.loading = this.loading
-            commitItems = this.commitList.map { commit -> CommitItemViewModel(commit) }
-            notifyPropertyChanged(BR.loading)
-            notifyPropertyChanged(BR.commitItems)
+            this@CommitListViewModel.loading.value = this.loading
+            commitItems.value = this.commitList.map { commit -> CommitItemViewModel(commit) }
         }
     }
 

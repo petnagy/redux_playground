@@ -29,7 +29,7 @@ class CommitListActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> 
         val binding: ActivityCommitsBinding = DataBindingUtil.setContentView(this, R.layout.activity_commits)
         binding.setVariable(BR.viewModel, viewModel)
         binding.executePendingBindings()
-
+        binding.setLifecycleOwner(this)
         store.dispatch(LoadCommitsAction(store.state.user.selectedUserName, store.state.repos.selectedRepoName))
     }
 
