@@ -1,5 +1,6 @@
 package com.playground.redux.pages.userpage.viewmodel
 
+import android.arch.lifecycle.MutableLiveData
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.support.design.widget.Snackbar
@@ -12,6 +13,7 @@ import com.petnagy.koredux.Store
 import com.petnagy.koredux.StoreSubscriber
 import com.playground.redux.BR
 import com.playground.redux.data.UserSearch
+import com.playground.redux.extensions.default
 import com.playground.redux.redux.actions.PreviousSearchDeleteAction
 import com.playground.redux.redux.actions.UndoUserSearchDeleteAction
 import com.playground.redux.redux.actions.UserSelectionAction
@@ -23,11 +25,8 @@ class UserViewModel(var store: Store<AppState>) : BaseObservable(), StoreSubscri
 
     var user: String = store.state.user.typedName
 
-    @Bindable
-    var loading: Boolean = false
-
-    @Bindable
-    var historyItems: List<HistoryItemViewModel> = emptyList()
+    var loading = MutableLiveData<Boolean>().default(false)
+    var historyItems = MutableLiveData<List<HistoryItemViewModel>>().default(emptyList())
 
     fun onOkButtonClicked(view: View) {
         Timber.d("Ok Button pressed")
@@ -93,14 +92,14 @@ class UserViewModel(var store: Store<AppState>) : BaseObservable(), StoreSubscri
 
     override fun newState(state: AppState) {
         state.user.apply {
+            this@UserViewModel.loading.value = this.loading
             this.history.let { historyList ->
                 Timber.d("History item list size: ${historyList.size}")
-                historyItems = historyList
+                historyItems.value = historyList
                         .asSequence()
                         .filter { userSearch -> userSearch.userName.startsWith(this.typedName) }
                         .map { userSearch -> HistoryItemViewModel(userSearch, this@UserViewModel) }
                         .toMutableList()
-                notifyPropertyChanged(BR.historyItems)
             }
         }
     }
