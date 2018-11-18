@@ -1,6 +1,9 @@
 package com.playground.redux.pages.userpage.viewmodel
 
+import android.arch.lifecycle.Lifecycle
+import android.arch.lifecycle.LifecycleObserver
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.OnLifecycleEvent
 import android.databinding.BaseObservable
 import android.databinding.Bindable
 import android.support.design.widget.Snackbar
@@ -11,7 +14,6 @@ import android.text.TextWatcher
 import android.view.View
 import com.petnagy.koredux.Store
 import com.petnagy.koredux.StoreSubscriber
-import com.playground.redux.BR
 import com.playground.redux.data.UserSearch
 import com.playground.redux.extensions.default
 import com.playground.redux.redux.actions.PreviousSearchDeleteAction
@@ -21,18 +23,21 @@ import com.playground.redux.redux.actions.UserTypeAction
 import com.playground.redux.redux.appstate.AppState
 import timber.log.Timber
 
-class UserViewModel(var store: Store<AppState>) : BaseObservable(), StoreSubscriber<AppState>, UserSearchCallback {
+class UserViewModel(var store: Store<AppState>) : BaseObservable(), StoreSubscriber<AppState>, UserSearchCallback, LifecycleObserver {
 
     var user: String = store.state.user.typedName
 
     var loading = MutableLiveData<Boolean>().default(false)
     var historyItems = MutableLiveData<List<HistoryItemViewModel>>().default(emptyList())
 
-    fun onOkButtonClicked(view: View) {
-        Timber.d("Ok Button pressed")
-        if (user.isNotBlank()) {
-            store.dispatch(UserSelectionAction(user))
-        }
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun onStart() {
+        store.subscribe(this)
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    fun onStop() {
+        store.unsubscribe(this)
     }
 
     @Bindable
@@ -68,17 +73,16 @@ class UserViewModel(var store: Store<AppState>) : BaseObservable(), StoreSubscri
         }
     }
 
+    fun onOkButtonClicked(view: View) {
+        Timber.d("Ok Button pressed")
+        if (user.isNotBlank()) {
+            store.dispatch(UserSelectionAction(user))
+        }
+    }
+
     fun showUndoSnackbar(view: View, userSearch: UserSearch) {
         Snackbar.make(view, "User name will be delete: ${userSearch.userName}", Snackbar.LENGTH_LONG)
                 .setAction("UNDO") { store.dispatch(UndoUserSearchDeleteAction(userSearch)) }.show()
-    }
-
-    fun onStart() {
-        store.subscribe(this)
-    }
-
-    fun onStop() {
-        store.unsubscribe(this)
     }
 
     override fun onUserSearchClicked(userSearch: UserSearch) {

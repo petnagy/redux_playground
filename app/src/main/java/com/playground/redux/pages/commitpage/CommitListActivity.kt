@@ -30,19 +30,18 @@ class CommitListActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> 
         binding.setVariable(BR.viewModel, viewModel)
         binding.executePendingBindings()
         binding.setLifecycleOwner(this)
+        lifecycle.addObserver(viewModel)
         store.dispatch(LoadCommitsAction(store.state.user.selectedUserName, store.state.repos.selectedRepoName))
     }
 
     override fun onStart() {
         super.onStart()
         store.subscribe(this)
-        viewModel.onStart()
     }
 
     override fun onStop() {
         super.onStop()
         store.unsubscribe(this)
-        viewModel.onStop()
     }
 
     override fun onBackPressed() {

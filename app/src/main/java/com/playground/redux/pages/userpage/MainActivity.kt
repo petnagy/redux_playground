@@ -29,19 +29,18 @@ class MainActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
         val binding: ActivityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         binding.setVariable(BR.viewModel, viewModel)
         binding.executePendingBindings()
-
+        binding.setLifecycleOwner(this)
+        lifecycle.addObserver(viewModel)
         store.dispatch(LoadPreviousSearchAction())
     }
 
     override fun onStart() {
         super.onStart()
-        viewModel.onStart()
         store.subscribe(this)
     }
 
     override fun onStop() {
         super.onStop()
-        viewModel.onStop()
         store.unsubscribe(this)
     }
 

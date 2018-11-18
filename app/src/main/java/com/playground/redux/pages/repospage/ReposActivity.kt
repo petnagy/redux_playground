@@ -30,19 +30,18 @@ class ReposActivity : DaggerAppCompatActivity(), StoreSubscriber<AppState> {
         val binding: ActivityReposBinding = DataBindingUtil.setContentView(this, R.layout.activity_repos)
         binding.setVariable(BR.viewModel, viewModel)
         binding.executePendingBindings()
-
+        binding.setLifecycleOwner(this)
+        lifecycle.addObserver(viewModel)
         store.dispatch(LoadReposAction(store.state.user.selectedUserName))
     }
 
     override fun onStart() {
         super.onStart()
-        viewModel.onStart()
         store.subscribe(this)
     }
 
     override fun onStop() {
         super.onStop()
-        viewModel.onStop()
         store.unsubscribe(this)
     }
 
