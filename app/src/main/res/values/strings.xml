@@ -2,4 +2,5 @@
     <string name="app_name">Redux Playground</string>
     <string name="user_name">User name: %s</string>
     <string name="repo_name">Repo name: %s</string>
+    <string name="user_name_hint">GitHub user name</string>
 </resources>

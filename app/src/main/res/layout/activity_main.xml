@@ -34,26 +34,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
+            <android.support.design.widget.TextInputLayout
                 android:id="@+id/editUser"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="@={viewModel.user}"
+                android:layout_marginEnd="8dp"
+                android:hint="@string/user_name_hint"
                 app:layout_constraintEnd_toStartOf="@+id/guideline"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/progress"
-                bind:addTextWatcher="@{viewModel.userWatcher}" />
+                app:layout_constraintTop_toBottomOf="@+id/progress">
 
-            <Button
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/input_editUser"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.user}"
+                    bind:addTextWatcher="@{viewModel.userWatcher}" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.button.MaterialButton
                 android:id="@+id/btnOk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
                 android:onClick="@{viewModel::onOkButtonClicked}"
                 android:text="OK"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -64,9 +71,9 @@
                 android:id="@+id/history_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
                 android:text="Search history:"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -76,10 +83,10 @@
                 android:id="@+id/historyList"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
